@@ -1,1 +1,3 @@
-remake_add_directories(exceptions com serialization)
+remake_include()
+
+remake_add_directories()
