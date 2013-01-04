@@ -16,27 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#include "exceptions/InvalidOperationException.h"
 
-#define PROJECT_NAME "${REMAKE_PROJECT_NAME}"
-#define PROJECT_MAJOR ${REMAKE_PROJECT_MAJOR}
-#define PROJECT_MINOR ${REMAKE_PROJECT_MINOR}
-#define PROJECT_PATCH ${REMAKE_PROJECT_PATCH}
-#define PROJECT_RELEASE "${REMAKE_PROJECT_RELEASE}"
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#define PROJECT_SUMMARY "${REMAKE_PROJECT_SUMMARY}"
-#define PROJECT_AUTHOR "${REMAKE_PROJECT_AUTHOR}"
-#define PROJECT_CONTACT "${REMAKE_PROJECT_CONTACT}"
-#define PROJECT_HOME "${REMAKE_PROJECT_HOME}"
+InvalidOperationException::InvalidOperationException(const std::string& msg) :
+    std::runtime_error(msg) {
+}
 
-#define PROJECT_LICENSE "${REMAKE_PROJECT_LICENSE}"
-#define PROJECT_LICENSE_TEXT "${REMAKE_PROJECT_LICENSE_TEXT}"
+InvalidOperationException::InvalidOperationException(const
+    InvalidOperationException& other) throw () :
+    std::runtime_error(other) {
+}
 
-#define PROJECT_BUILD_SYSTEM "${REMAKE_PROJECT_BUILD_SYSTEM}"
-#define PROJECT_BUILD_ARCH "${REMAKE_PROJECT_BUILD_ARCH}"
-#define PROJECT_BUILD_TYPE "${REMAKE_PROJECT_BUILD_TYPE}"
-
-#define PROJECT_CONFIGURATION "${LIBPOSLV_CONFIGURATION_DESTINATION}"
-
-#endif
+InvalidOperationException::~InvalidOperationException() throw () {
+}

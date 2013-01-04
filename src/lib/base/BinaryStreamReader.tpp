@@ -16,27 +16,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef CONFIG_H
-#define CONFIG_H
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#define PROJECT_NAME "${REMAKE_PROJECT_NAME}"
-#define PROJECT_MAJOR ${REMAKE_PROJECT_MAJOR}
-#define PROJECT_MINOR ${REMAKE_PROJECT_MINOR}
-#define PROJECT_PATCH ${REMAKE_PROJECT_PATCH}
-#define PROJECT_RELEASE "${REMAKE_PROJECT_RELEASE}"
+template <typename T>
+BinaryStreamReader<T>::BinaryStreamReader(T& stream) :
+    mStream(stream) {
+}
 
-#define PROJECT_SUMMARY "${REMAKE_PROJECT_SUMMARY}"
-#define PROJECT_AUTHOR "${REMAKE_PROJECT_AUTHOR}"
-#define PROJECT_CONTACT "${REMAKE_PROJECT_CONTACT}"
-#define PROJECT_HOME "${REMAKE_PROJECT_HOME}"
+template <typename T>
+BinaryStreamReader<T>::~BinaryStreamReader() {
+}
 
-#define PROJECT_LICENSE "${REMAKE_PROJECT_LICENSE}"
-#define PROJECT_LICENSE_TEXT "${REMAKE_PROJECT_LICENSE_TEXT}"
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
 
-#define PROJECT_BUILD_SYSTEM "${REMAKE_PROJECT_BUILD_SYSTEM}"
-#define PROJECT_BUILD_ARCH "${REMAKE_PROJECT_BUILD_ARCH}"
-#define PROJECT_BUILD_TYPE "${REMAKE_PROJECT_BUILD_TYPE}"
+template <typename T>
+const T& BinaryStreamReader<T>::getStream() const {
+  return mStream;
+}
 
-#define PROJECT_CONFIGURATION "${LIBPOSLV_CONFIGURATION_DESTINATION}"
+template <typename T>
+T& BinaryStreamReader<T>::getStream() {
+  return mStream;
+}
 
-#endif
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
+
+template <typename T>
+void BinaryStreamReader<T>::read(char* buffer, size_t numBytes) {
+  mStream.read(buffer, numBytes);
+}

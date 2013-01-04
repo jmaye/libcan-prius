@@ -9,34 +9,73 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef CONFIG_H
-#define CONFIG_H
+/** \file Singleton.h
+    \brief This file defines the Singleton class, which implements the singleton
+           design pattern
+  */
 
-#define PROJECT_NAME "${REMAKE_PROJECT_NAME}"
-#define PROJECT_MAJOR ${REMAKE_PROJECT_MAJOR}
-#define PROJECT_MINOR ${REMAKE_PROJECT_MINOR}
-#define PROJECT_PATCH ${REMAKE_PROJECT_PATCH}
-#define PROJECT_RELEASE "${REMAKE_PROJECT_RELEASE}"
+#ifndef SINGLETON_H
+#define SINGLETON_H
 
-#define PROJECT_SUMMARY "${REMAKE_PROJECT_SUMMARY}"
-#define PROJECT_AUTHOR "${REMAKE_PROJECT_AUTHOR}"
-#define PROJECT_CONTACT "${REMAKE_PROJECT_CONTACT}"
-#define PROJECT_HOME "${REMAKE_PROJECT_HOME}"
+/** The class Singleton implements the singleton design pattern.
+    \brief Singleton design pattern
+  */
+template <class C> class Singleton {
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Singleton(const Singleton& other);
+  /// Assignment operator
+  Singleton& operator = (const Singleton& other);
+  /** @}
+    */
 
-#define PROJECT_LICENSE "${REMAKE_PROJECT_LICENSE}"
-#define PROJECT_LICENSE_TEXT "${REMAKE_PROJECT_LICENSE_TEXT}"
+public:
+  /** \name Accessors
+    @{
+    */
+  /// Access the static instance
+  static C& getInstance();
+  /** @}
+    */
 
-#define PROJECT_BUILD_SYSTEM "${REMAKE_PROJECT_BUILD_SYSTEM}"
-#define PROJECT_BUILD_ARCH "${REMAKE_PROJECT_BUILD_ARCH}"
-#define PROJECT_BUILD_TYPE "${REMAKE_PROJECT_BUILD_TYPE}"
+  /** \name Methods
+    @{
+    */
+  /// Check if the object exists
+  static bool exists();
+  /** @}
+    */
 
-#define PROJECT_CONFIGURATION "${LIBPOSLV_CONFIGURATION_DESTINATION}"
+protected:
+  /** \name Protected constructors/destructor
+    @{
+    */
+  /// Default constructor
+  Singleton();
+  /// Destructor
+  virtual ~Singleton();
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Instance of the object
+  static C* instance;
+  /** @}
+    */
+
+};
+
+#include "base/Singleton.tpp"
 
 #endif

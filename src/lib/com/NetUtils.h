@@ -16,27 +16,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef CONFIG_H
-#define CONFIG_H
+/** \file NetUtils.h
+    \brief This file defines the NetUtils namespace which contains utilities
+           for networking.
+  */
 
-#define PROJECT_NAME "${REMAKE_PROJECT_NAME}"
-#define PROJECT_MAJOR ${REMAKE_PROJECT_MAJOR}
-#define PROJECT_MINOR ${REMAKE_PROJECT_MINOR}
-#define PROJECT_PATCH ${REMAKE_PROJECT_PATCH}
-#define PROJECT_RELEASE "${REMAKE_PROJECT_RELEASE}"
+#ifndef NETUTILS_H
+#define NETUTILS_H
 
-#define PROJECT_SUMMARY "${REMAKE_PROJECT_SUMMARY}"
-#define PROJECT_AUTHOR "${REMAKE_PROJECT_AUTHOR}"
-#define PROJECT_CONTACT "${REMAKE_PROJECT_CONTACT}"
-#define PROJECT_HOME "${REMAKE_PROJECT_HOME}"
+#include <string>
 
-#define PROJECT_LICENSE "${REMAKE_PROJECT_LICENSE}"
-#define PROJECT_LICENSE_TEXT "${REMAKE_PROJECT_LICENSE_TEXT}"
+/** The class NetUtils contains networking utilities.
+    \brief Networking utilities
+  */
+namespace NetUtils {
+  /** \name Members
+    @{
+    */
+  /// Static base64 characters
+  const std::string base64_chars = 
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz"
+    "0123456789+/";
+ /** @}
+    */
 
-#define PROJECT_BUILD_SYSTEM "${REMAKE_PROJECT_BUILD_SYSTEM}"
-#define PROJECT_BUILD_ARCH "${REMAKE_PROJECT_BUILD_ARCH}"
-#define PROJECT_BUILD_TYPE "${REMAKE_PROJECT_BUILD_TYPE}"
+  /** \name Methods
+    @{
+    */
+  /// Returns a host's IP from its hostname
+  std::string getHostIP(const std::string &serverHost);
+  /// Check if a character is base64 encoded
+  bool isBase64(char c);
+  /// Encodes to base64 representation
+  std::string base64Encode(const std::string &input);
+  /// Decodes base64 representation
+  std::string base64Decode(const std::string &input);
+ /** @}
+    */
 
-#define PROJECT_CONFIGURATION "${LIBPOSLV_CONFIGURATION_DESTINATION}"
+};
 
-#endif
+#endif // NETUTILS_H

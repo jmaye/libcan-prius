@@ -16,27 +16,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef CONFIG_H
-#define CONFIG_H
+/** \file TypeCastException.h
+    \brief This file defines the TypeCastException class, which represents wrong
+           type casts
+  */
 
-#define PROJECT_NAME "${REMAKE_PROJECT_NAME}"
-#define PROJECT_MAJOR ${REMAKE_PROJECT_MAJOR}
-#define PROJECT_MINOR ${REMAKE_PROJECT_MINOR}
-#define PROJECT_PATCH ${REMAKE_PROJECT_PATCH}
-#define PROJECT_RELEASE "${REMAKE_PROJECT_RELEASE}"
+#ifndef TYPECASTEXCEPTION_H
+#define TYPECASTEXCEPTION_H
 
-#define PROJECT_SUMMARY "${REMAKE_PROJECT_SUMMARY}"
-#define PROJECT_AUTHOR "${REMAKE_PROJECT_AUTHOR}"
-#define PROJECT_CONTACT "${REMAKE_PROJECT_CONTACT}"
-#define PROJECT_HOME "${REMAKE_PROJECT_HOME}"
+#include <stdexcept>
+#include <string>
 
-#define PROJECT_LICENSE "${REMAKE_PROJECT_LICENSE}"
-#define PROJECT_LICENSE_TEXT "${REMAKE_PROJECT_LICENSE_TEXT}"
+/** The class TypeCastException represents a wrong type cast.
+    \brief Type cast exception
+  */
+class TypeCastException :
+  public std::runtime_error {
+public:
+  /** \name Constructors/Destructor
+    @{
+    */
+  /// Constructs exception from message
+  TypeCastException(const std::string& msg = "");
+  /// Copy constructor
+  TypeCastException(const TypeCastException& other) throw ();
+  /// Destructor
+  virtual ~TypeCastException() throw ();
+  /** @}
+    */
 
-#define PROJECT_BUILD_SYSTEM "${REMAKE_PROJECT_BUILD_SYSTEM}"
-#define PROJECT_BUILD_ARCH "${REMAKE_PROJECT_BUILD_ARCH}"
-#define PROJECT_BUILD_TYPE "${REMAKE_PROJECT_BUILD_TYPE}"
+protected:
 
-#define PROJECT_CONFIGURATION "${LIBPOSLV_CONFIGURATION_DESTINATION}"
+};
 
-#endif
+#endif // TYPECASTEXCEPTION_H
