@@ -16,26 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file CANCom.h
-    \brief This file defines the CANCom class which handles CAN communication
+/** \file CANScanCom.h
+    \brief This file defines the CANScanCom class which scans CAN communication
            with the PRIUS.
   */
 
-#ifndef CANCOM_H
-#define CANCOM_H
+#ifndef CANSCANCOM_H
+#define CANSCANCOM_H
 
 #include <memory>
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
 
-class PRIUSReader;
-class PRIUSMessage;
+#include "com/CANConnection.h"
 
-/** The CANCom class handles CAN communication with the PRIUS.
-    \brief CAN communication with the PRIUS
+/** The CANScanCom class scans CAN communication with the PRIUS.
+    \brief Scanner for CAN communication with the PRIUS
   */
-class CANCom :
+class CANScanCom :
   public QObject {
 
 Q_OBJECT
@@ -44,9 +43,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  CANCom(const CANCom& other);
+  CANScanCom(const CANScanCom& other);
   /// Assignment operator
-  CANCom& operator = (const CANCom& other);
+  CANScanCom& operator = (const CANScanCom& other);
   /** @}
     */
 
@@ -55,9 +54,9 @@ public:
     @{
     */
   /// Constructs reader with polling time and device
-  CANCom(PRIUSReader& device, double pollingTime = 0);
+  CANScanCom(CANConnection& device, double pollingTime = 0);
   /// Destructor
-  virtual ~CANCom();
+  virtual ~CANScanCom();
   /** @}
     */
 
@@ -76,7 +75,7 @@ protected:
     @{
     */
   /// Device
-  PRIUSReader& mDevice;
+  CANConnection& mDevice;
   /// Timer
   QTimer mTimer;
   /// Polling time
@@ -98,7 +97,7 @@ signals:
     @{
     */
   /// Message read
-  void readMessage(std::shared_ptr<PRIUSMessage> message);
+  void readMessage(std::shared_ptr<CANConnection::Message> message);
   /// Com exception
   void comException(const std::string& msg);
   /** @}
@@ -106,4 +105,4 @@ signals:
 
 };
 
-#endif // CANCOM_H
+#endif // CANSCANCOM_H

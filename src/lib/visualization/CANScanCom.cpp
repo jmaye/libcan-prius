@@ -16,17 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/CANCom.h"
+#include "visualization/CANScanCom.h"
 
-#include "sensor/PRIUSReader.h"
 #include "exceptions/IOException.h"
-#include "com/CANConnection.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-CANCom::CANCom(PRIUSReader& device, double pollingTime) :
+CANScanCom::CANScanCom(CANConnection& device, double pollingTime) :
     mDevice(device),
     mPollingTime(pollingTime) {
   connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
@@ -34,18 +32,18 @@ CANCom::CANCom(PRIUSReader& device, double pollingTime) :
   mTimer.start();
 }
 
-CANCom::~CANCom() {
+CANScanCom::~CANScanCom() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-double CANCom::getPollingTime() const {
+double CANScanCom::getPollingTime() const {
   return mPollingTime;
 }
 
-void CANCom::setPollingTime(double pollingTime) {
+void CANScanCom::setPollingTime(double pollingTime) {
   mPollingTime = pollingTime;
   mTimer.setInterval(pollingTime);
 }
@@ -54,11 +52,13 @@ void CANCom::setPollingTime(double pollingTime) {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void CANCom::timerTimeout() {
+void CANScanCom::timerTimeout() {
   try {
-    if (!mDevice.getConnection().isOpen())
-      mDevice.getConnection().open();
-    emit readMessage(mDevice.readMessage());
+    if (!mDevice.isOpen())
+      mDevice.open();
+    CANConnection::Message canMessage;
+    mDevice.receiveMessage(canMessage);
+//    emit readMessage(mDevice.receiveMessage());
   }
   catch (IOException& e) {
     emit comException(e.what());
