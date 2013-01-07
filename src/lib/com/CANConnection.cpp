@@ -36,7 +36,8 @@ CANConnection::CANConnection(const std::string& devicePathStr, int bitrate,
     mBitrate(bitrate),
     mQuantaPerBit(quantaPerBit),
     mSamplingPoint(samplingPoint),
-    mTimeout(timeout) {
+    mTimeout(timeout),
+    mHandle(0) {
 }
 
 CANConnection::~CANConnection() {
@@ -104,7 +105,9 @@ void CANConnection::open() {
   config_set_float(&config, CAN_CPC_PARAMETER_TIMEOUT, mTimeout);
   mHandle = (can_device_p)malloc(sizeof(can_device_t));
   can_init(mHandle, &config);
+  config_destroy(&config);
   if (can_open(mHandle)) {
+    can_destroy(mHandle);
     free(mHandle);
     mHandle = 0;
     throw IOException("CANConnection::open: CAN port opening failed");

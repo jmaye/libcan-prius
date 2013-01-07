@@ -16,49 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
-
-#include "base/Factory.h"
-#include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
+#include "visualization/Control.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+Control::Control() :
+    mMenu(this) {
 }
 
-PRIUSReader::~PRIUSReader() {
+Control::~Control() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-CANConnection& PRIUSReader::getConnection() {
-  return mDevice;
+QMenu& Control::getMenu() {
+  return mMenu;
 }
 
-const CANConnection& PRIUSReader::getConnection() const {
-  return mDevice;
-}
-
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+const QMenu& Control::getMenu() const {
+  return mMenu;
 }

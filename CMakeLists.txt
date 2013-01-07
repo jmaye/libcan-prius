@@ -39,6 +39,13 @@ remake_pack_deb(
 )
 
 remake_pack_deb(
+  COMPONENT gui-tools
+  DESCRIPTION "GUI tools"
+  libcan-prius
+  libqtgui4
+)
+
+remake_pack_deb(
   COMPONENT doc
   DESCRIPTION "Documentation"
   libcan-prius

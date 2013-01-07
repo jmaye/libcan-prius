@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (C) 2013 by Jerome Maye                                          *
+ * Copyright (C) 2011 by Jerome Maye                                          *
  * jerome.maye@gmail.com                                                      *
  *                                                                            *
  * This program is free software; you can redistribute it and/or modify       *
@@ -9,38 +9,44 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file PRIUSReader.h
-    \brief This file defines the PRIUSReader class which is an interface for
-           reading CAN messages from the PRIUS.
+/** \file CANCom.h
+    \brief This file defines the CANCom class which handles CAN communication
+           with the PRIUS.
   */
 
-#ifndef PRIUSREADER_H
-#define PRIUSREADER_H
+#ifndef CANCOM_H
+#define CANCOM_H
 
 #include <memory>
 
-class PRIUSMessage;
-class CANConnection;
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
 
-/** The PRIUSReader class is an interface for reading CAN messages from
-    the PRIUS.
-    \brief PRIUS reading interface for CAN messages
+class PRIUSReader;
+class PRIUSMessage;
+
+/** The CANCom class handles CAN communication with the PRIUS.
+    \brief CAN communication with the PRIUS
   */
-class PRIUSReader {
+class CANCom :
+  public QObject {
+
+Q_OBJECT
+
   /** \name Private constructors
     @{
     */
   /// Copy constructor
-  PRIUSReader(const PRIUSReader& other);
+  CANCom(const CANCom& other);
   /// Assignment operator
-  PRIUSReader& operator = (const PRIUSReader& other);
+  CANCom& operator = (const CANCom& other);
   /** @}
     */
 
@@ -48,28 +54,20 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs with CAN device to read from
-  PRIUSReader(CANConnection& device);
+  /// Constructs reader with polling time and device
+  CANCom(PRIUSReader& device, double pollingTime = 0);
   /// Destructor
-  virtual ~PRIUSReader();
-  /** @}
-    */
-
-  /** \name Methods
-    @{
-    */
-  /// Reads a message from the PRIUS
-  std::shared_ptr<PRIUSMessage> readMessage();
+  virtual ~CANCom();
   /** @}
     */
 
   /** \name Accessors
     @{
     */
-  /// Return the connection
-  CANConnection& getConnection();
-  /// Return the connection
-  const CANConnection& getConnection() const;
+  /// Returns the polling time
+  double getPollingTime() const;
+  /// Sets the polling time
+  void setPollingTime(double pollingTime);
   /** @}
     */
 
@@ -77,11 +75,35 @@ protected:
   /** \name Protected members
     @{
     */
-  /// CAN device to read from
-  CANConnection& mDevice;
+  /// Device
+  PRIUSReader& mDevice;
+  /// Timer
+  QTimer mTimer;
+  /// Polling time
+  double mPollingTime;
+  /** @}
+    */
+
+protected slots:
+  /** \name Qt slots
+    @{
+    */
+  /// Timeout of the timer
+  void timerTimeout();
+  /** @}
+    */
+
+signals:
+  /** \name Qt signals
+    @{
+    */
+  /// Message read
+  void readMessage(std::shared_ptr<PRIUSMessage> message);
+  /// Com exception
+  void comException(const std::string& msg);
   /** @}
     */
 
 };
 
-#endif // PRIUSREADER_H
+#endif // CANCOM_H

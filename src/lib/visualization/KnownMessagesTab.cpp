@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (C) 2013 by Jerome Maye                                          *
+ * Copyright (C) 2011 by Jerome Maye                                          *
  * jerome.maye@gmail.com                                                      *
  *                                                                            *
  * This program is free software; you can redistribute it and/or modify       *
@@ -16,49 +16,50 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+#include "visualization/KnownMessagesTab.h"
 
-#include "base/Factory.h"
+#include "types/FrontWheelsSpeed.h"
+#include "types/RearWheelsSpeed.h"
+#include "types/Speed.h"
+#include "types/Steering.h"
 #include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
+
+#include "ui_KnownMessagesTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+KnownMessagesTab::KnownMessagesTab() :
+    mUi(new Ui_KnownMessagesTab()) {
+  mUi->setupUi(this);
 }
 
-PRIUSReader::~PRIUSReader() {
-}
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-CANConnection& PRIUSReader::getConnection() {
-  return mDevice;
-}
-
-const CANConnection& PRIUSReader::getConnection() const {
-  return mDevice;
+KnownMessagesTab::~KnownMessagesTab() {
+  delete mUi;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
+void KnownMessagesTab::readMessage(std::shared_ptr<PRIUSMessage> message) {
+  if (message->instanceOf<FrontWheelsSpeed>()) {
+    const FrontWheelsSpeed& fws = message->typeCast<FrontWheelsSpeed>();
+    mUi->fwsLeftSpinBox->setValue(fws.mLeft);
+    mUi->fwsRightSpinBox->setValue(fws.mRight);
   }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+  else if (message->instanceOf<RearWheelsSpeed>()) {
+    const RearWheelsSpeed& rws = message->typeCast<RearWheelsSpeed>();
+    mUi->rwsLeftSpinBox->setValue(rws.mLeft);
+    mUi->rwsRightSpinBox->setValue(rws.mRight);
+  }
+  else if (message->instanceOf<Speed>()) {
+    const Speed& sp = message->typeCast<Speed>();
+    mUi->vsSpinBox->setValue(sp.mSpeed);
+  }
+  else if (message->instanceOf<Steering>()) {
+    const Steering& st = message->typeCast<Steering>();
+    mUi->stSpinBox->setValue(st.mAngle);
+  }
 }

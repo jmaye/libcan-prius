@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KnownMessagesTab</class>
+ <widget class="QWidget" name="KnownMessagesTab">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>930</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="fwsGroup">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>211</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Front Wheels Speed</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="fwsLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="fwsLeftLabel">
+       <property name="text">
+        <string>Left:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="fwsLeftSpinBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="fwsRightLabel">
+       <property name="text">
+        <string>Right:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="fwsRightSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="rwsGroup">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>20</y>
+     <width>211</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Rear Wheels Speed</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="rwsLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="rwsLeftLabel">
+       <property name="text">
+        <string>Left:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="rwsLeftSpinBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="rwsRightLabel">
+       <property name="text">
+        <string>Right:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="rwsRightSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="vsGroup">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>20</y>
+     <width>211</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Vehicle Speed</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="vsLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="vsLabel">
+       <property name="text">
+        <string>Speed:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="vsSpinBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="stGroup">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>211</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Steering</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="stLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="stLabel">
+       <property name="text">
+        <string>Angle:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="stSpinBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <zorder>fwsGroup</zorder>
+  <zorder>rwsGroup</zorder>
+  <zorder>vsGroup</zorder>
+  <zorder>stGroup</zorder>
+  <zorder>stSpinBox</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

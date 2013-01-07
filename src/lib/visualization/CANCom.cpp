@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (C) 2013 by Jerome Maye                                          *
+ * Copyright (C) 2011 by Jerome Maye                                          *
  * jerome.maye@gmail.com                                                      *
  *                                                                            *
  * This program is free software; you can redistribute it and/or modify       *
@@ -16,49 +16,53 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+#include <iostream>
 
-#include "base/Factory.h"
-#include "types/PRIUSMessage.h"
+#include "visualization/CANCom.h"
+
+#include "sensor/PRIUSReader.h"
+#include "exceptions/IOException.h"
 #include "com/CANConnection.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+CANCom::CANCom(PRIUSReader& device, double pollingTime) :
+    mDevice(device),
+    mPollingTime(pollingTime) {
+  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+  mTimer.setInterval(pollingTime);
+  mTimer.start();
 }
 
-PRIUSReader::~PRIUSReader() {
+CANCom::~CANCom() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-CANConnection& PRIUSReader::getConnection() {
-  return mDevice;
+double CANCom::getPollingTime() const {
+  return mPollingTime;
 }
 
-const CANConnection& PRIUSReader::getConnection() const {
-  return mDevice;
+void CANCom::setPollingTime(double pollingTime) {
+  mPollingTime = pollingTime;
+  mTimer.setInterval(pollingTime);
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
+void CANCom::timerTimeout() {
+  try {
+    if (!mDevice.getConnection().isOpen())
+      mDevice.getConnection().open();
+    emit readMessage(mDevice.readMessage());
   }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+  catch (IOException& e) {
+    emit comException(e.what());
+  }
 }

@@ -16,16 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file binaryLogger.cpp
-    \brief This file is a testing binary for logging binary data.
+/** \file binaryReader.cpp
+    \brief This file is a testing binary for reading binary data from log
   */
 
-#include "com/CANConnection.h"
-#include "sensor/PRIUSReader.h"
+#include <iostream>
+#include <fstream>
+#include <memory>
+
 #include "exceptions/IOException.h"
-#include "base/BinaryStreamWriter.h"
-#include "base/Timestamp.h"
+#include "base/BinaryStreamReader.h"
 #include "types/PRIUSMessage.h"
+#include "base/Factory.h"
 
 int main(int argc, char** argv) {
   if (argc != 2) {
@@ -33,20 +35,20 @@ int main(int argc, char** argv) {
       << std::endl;
     return -1;
   }
-  CANConnection device;
-  PRIUSReader reader(device);
-  while (true) {
-    try {
-      std::shared_ptr<PRIUSMessage> message = reader.readMessage();
-      std::ofstream logFile(argv[1], std::ios_base::app);
-      BinaryStreamWriter<std::ofstream> binaryWriter(logFile);
-      binaryWriter << Timestamp::now();
-      binaryWriter << *message;
-    }
-    catch (IOException& e) {
-      std::cerr << e.what() << std::endl;
-      continue;
-    }
+  std::ifstream logFile(argv[1]);
+  BinaryStreamReader<std::ifstream> logReader(logFile);
+  logFile.seekg (0, std::ios::end);
+  const int length = logFile.tellg();
+  logFile.seekg (0, std::ios::beg);
+  while (logFile.tellg() != length) {
+    double timestamp;
+    logReader >> timestamp;
+    int typeID;
+    logReader >> typeID;
+    std::shared_ptr<PRIUSMessage>
+      priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
+      typeID));
+    logReader >> *priusMessage;
   }
   return 0;
 }

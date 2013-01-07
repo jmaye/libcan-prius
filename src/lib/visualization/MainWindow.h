@@ -9,38 +9,44 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file PRIUSReader.h
-    \brief This file defines the PRIUSReader class which is an interface for
-           reading CAN messages from the PRIUS.
+/** \file MainWindow.h
+    \brief This file defines the MainWindow class which is the main window
+           for live visualization of PRIUS data
   */
 
-#ifndef PRIUSREADER_H
-#define PRIUSREADER_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-#include <memory>
+#include <QtGui/QMainWindow>
+#include <QtCore/QString>
 
-class PRIUSMessage;
-class CANConnection;
+#include "visualization/Control.h"
 
-/** The PRIUSReader class is an interface for reading CAN messages from
-    the PRIUS.
-    \brief PRIUS reading interface for CAN messages
+class Ui_MainWindow;
+
+/** The MainWindow class is the main window for live visualization of
+    Applanix data.
+    \brief Live visualization of Applanix data
   */
-class PRIUSReader {
+class MainWindow :
+  public QMainWindow {
+
+Q_OBJECT
+
   /** \name Private constructors
     @{
     */
   /// Copy constructor
-  PRIUSReader(const PRIUSReader& other);
+  MainWindow(const MainWindow& other);
   /// Assignment operator
-  PRIUSReader& operator = (const PRIUSReader& other);
+  MainWindow& operator = (const MainWindow& other);
   /** @}
     */
 
@@ -48,28 +54,18 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs with CAN device to read from
-  PRIUSReader(CANConnection& device);
+  /// Default constructor
+  MainWindow();
   /// Destructor
-  virtual ~PRIUSReader();
+  virtual ~MainWindow();
   /** @}
     */
 
   /** \name Methods
     @{
     */
-  /// Reads a message from the PRIUS
-  std::shared_ptr<PRIUSMessage> readMessage();
-  /** @}
-    */
-
-  /** \name Accessors
-    @{
-    */
-  /// Return the connection
-  CANConnection& getConnection();
-  /// Return the connection
-  const CANConnection& getConnection() const;
+  /// Adds a control to the main window
+  void addControl(const QString& title, Control& control);
   /** @}
     */
 
@@ -77,11 +73,22 @@ protected:
   /** \name Protected members
     @{
     */
-  /// CAN device to read from
-  CANConnection& mDevice;
+  /// Pointer to the UI
+  Ui_MainWindow* mUi;
+  /** @}
+    */
+
+protected slots:
+  /** \name Protected slots
+    @{
+    */
+  /// Is the PRIUS connected?
+  void deviceConnected(bool connected);
+  /// Com exception
+  void comException(const std::string& msg);
   /** @}
     */
 
 };
 
-#endif // PRIUSREADER_H
+#endif // MAINWINDOW_H

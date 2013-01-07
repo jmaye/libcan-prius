@@ -16,49 +16,43 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+#include "visualization/MainWindow.h"
 
-#include "base/Factory.h"
-#include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
+#include "ui_MainWindow.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+MainWindow::MainWindow() :
+    mUi(new Ui_MainWindow()) {
+  mUi->setupUi(this);
+  while (mUi->tabsWidget->count())
+    mUi->tabsWidget->removeTab(0);
+  mUi->statusBar->showMessage("Disconnected");
 }
 
-PRIUSReader::~PRIUSReader() {
-}
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-CANConnection& PRIUSReader::getConnection() {
-  return mDevice;
-}
-
-const CANConnection& PRIUSReader::getConnection() const {
-  return mDevice;
+MainWindow::~MainWindow() {
+  delete mUi;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+void MainWindow::addControl(const QString& title, Control& control) {
+  mUi->tabsWidget->addTab(&control, title);
+  if (!control.getMenu().isEmpty())
+    mUi->menuBar->addMenu(&control.getMenu())->setText(title);
+}
+
+void MainWindow::deviceConnected(bool connected) {
+  if (connected == true)
+    mUi->statusBar->showMessage("Connected");
+  else
+    mUi->statusBar->showMessage("Disconnected");
+}
+
+void MainWindow::comException(const std::string& msg) {
+  mUi->statusBar->showMessage(QString(msg.c_str()));
 }
