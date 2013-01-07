@@ -20,6 +20,30 @@
     \brief This file is a testing binary for logging binary data.
   */
 
+#include "com/CANConnection.h"
+#include "sensor/PRIUSReader.h"
+#include "exceptions/IOException.h"
+
 int main(int argc, char** argv) {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <LogFilename>"
+      << std::endl;
+    return -1;
+  }
+  CANConnection device;
+  PRIUSReader reader(device);
+  while (true) {
+    try {
+      std::shared_ptr<PRIUSMessage> message = reader.readMessage();
+      std::ofstream logFile(argv[1], std::ios_base::app);
+//      BinaryLogWriter logWriter(logFile);
+//      logWriter << Timestamp::now();
+//      logWriter.writePacket(packet);
+    }
+    catch (IOException& e) {
+      std::cerr << e.what() << std::endl;
+      continue;
+    }
+  }
   return 0;
 }

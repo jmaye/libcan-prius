@@ -16,37 +16,64 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+#include "types/RearWheelsSpeed.h"
 
-#include "base/Factory.h"
-#include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const RearWheelsSpeed RearWheelsSpeed::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+RearWheelsSpeed::RearWheelsSpeed() :
+    PRIUSMessage(0xb3) {
 }
 
-PRIUSReader::~PRIUSReader() {
+RearWheelsSpeed::RearWheelsSpeed(const RearWheelsSpeed &other) :
+    PRIUSMessage(other),
+    mRight(other.mRight),
+    mLeft(other.mLeft) {
+}
+
+RearWheelsSpeed& RearWheelsSpeed::operator = (const RearWheelsSpeed& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mRight = other.mRight;
+    mLeft = other.mLeft;
+  }
+  return *this;
+}
+
+RearWheelsSpeed::~RearWheelsSpeed() {
+}
+
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void RearWheelsSpeed::read(BinaryReader& stream) {
+  stream >> mRight >> mLeft;
+}
+
+void RearWheelsSpeed::write(BinaryWriter& stream) const {
+  stream << mTypeID << mRight << mLeft;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+void RearWheelsSpeed::fillData(const unsigned char* data) {
+  mRight = (data[0] << 8) | (data[1] << 0);
+  mLeft = (data[2] << 8) | (data[3] << 0);
+}
+
+RearWheelsSpeed* RearWheelsSpeed::clone() const {
+  return new RearWheelsSpeed(*this);
 }

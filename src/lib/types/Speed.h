@@ -16,37 +16,69 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+/** \file Speed.h
+    \brief This file defines the Speed class, which represents the
+           velocity of the vehicle.
+  */
 
-#include "base/Factory.h"
+#ifndef SPEED_H
+#define SPEED_H
+
+#include <stdint.h>
+
 #include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+/** The class Speed contains the velocity of the vehicle.
+    \brief Velocity of the vehicle
+  */
+class Speed :
+  public PRIUSMessage {
+public:
+  /** \name Constructors/Destructor
+    @{
+    */
+  /// Default constructor
+  Speed();
+  /// Copy constructor
+  Speed(const Speed& other);
+  /// Assignement operator
+  Speed& operator = (const Speed& other);
+  /// Destructor
+  virtual ~Speed();
+  /** @}
+    */
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
-}
+  /** \name Methods
+    @{
+    */
+  /// Returns a new prototype of this message
+  virtual Speed* clone() const;
+  /// Fill data into the message
+  virtual void fillData(const unsigned char* data);
+  /** @}
+    */
 
-PRIUSReader::~PRIUSReader() {
-}
+  /** \name Members
+    @{
+    */
+  /// Velocity
+  uint8_t mSpeed;
+  /// Prototype for this message
+  static const Speed mProto;
+  /** @}
+    */
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
+protected:
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from the network
+  virtual void read(BinaryReader& stream);
+  /// Writes to the network
+  virtual void write(BinaryWriter& stream) const;
+  /** @}
+    */
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
-}
+};
+
+#endif // SPEED_H

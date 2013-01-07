@@ -26,10 +26,18 @@
 
 #include "exceptions/TypeCastException.h"
 
+class BinaryReader;
+class BinaryWriter;
+
 /** The class PRIUSMessage is the base class for all PRIUS messages.
     \brief Base class for all PRIUS messages
   */
 class PRIUSMessage {
+  /// Read stream operator
+  friend BinaryReader& operator >> (BinaryReader& stream, PRIUSMessage& obj);
+  /// Write stream operator
+  friend BinaryWriter& operator << (BinaryWriter& stream,
+    const PRIUSMessage& obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -92,6 +100,16 @@ public:
     */
 
 protected:
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from the stream
+  virtual void read(BinaryReader& stream) = 0;
+  /// Writes to the stream
+  virtual void write(BinaryWriter& stream) const = 0;
+  /** @}
+    */
+
   /** \name Protected members
     @{
     */

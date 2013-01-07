@@ -16,37 +16,69 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+/** \file Steering.h
+    \brief This file defines the Steering class, which represents the
+           steering angle.
+  */
 
-#include "base/Factory.h"
+#ifndef STEERING_H
+#define STEERING_H
+
+#include <stdint.h>
+
 #include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+/** The class Steering contains the steering angle.
+    \brief Steering angle
+  */
+class Steering :
+  public PRIUSMessage {
+public:
+  /** \name Constructors/Destructor
+    @{
+    */
+  /// Default constructor
+  Steering();
+  /// Copy constructor
+  Steering(const Steering& other);
+  /// Assignement operator
+  Steering& operator = (const Steering& other);
+  /// Destructor
+  virtual ~Steering();
+  /** @}
+    */
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
-}
+  /** \name Methods
+    @{
+    */
+  /// Returns a new prototype of this message
+  virtual Steering* clone() const;
+  /// Fill data into the message
+  virtual void fillData(const unsigned char* data);
+  /** @}
+    */
 
-PRIUSReader::~PRIUSReader() {
-}
+  /** \name Members
+    @{
+    */
+  /// Steering angle
+  int16_t mAngle;
+  /// Prototype for this message
+  static const Steering mProto;
+  /** @}
+    */
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
+protected:
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from the network
+  virtual void read(BinaryReader& stream);
+  /// Writes to the network
+  virtual void write(BinaryWriter& stream) const;
+  /** @}
+    */
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
-}
+};
+
+#endif // STEERING_H

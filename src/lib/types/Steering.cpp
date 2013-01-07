@@ -16,37 +16,65 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+#include "types/Steering.h"
 
-#include "base/Factory.h"
-#include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const Steering Steering::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+Steering::Steering() :
+    PRIUSMessage(0x25) {
 }
 
-PRIUSReader::~PRIUSReader() {
+Steering::Steering(const Steering &other) :
+    PRIUSMessage(other),
+    mAngle(other.mAngle) {
+}
+
+Steering& Steering::operator = (const Steering& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mAngle = other.mAngle;
+  }
+  return *this;
+}
+
+Steering::~Steering() {
+}
+
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void Steering::read(BinaryReader& stream) {
+  stream >> mAngle;
+}
+
+void Steering::write(BinaryWriter& stream) const {
+  stream << mTypeID << mAngle;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+void Steering::fillData(const unsigned char* data) {
+  uint16_t msg = (data[0] << 8) | (data[1] << 0);
+  if (msg <= 0x1B7)
+    mAngle = msg;
+  else
+    mAngle = -(4096 - msg);
+}
+
+Steering* Steering::clone() const {
+  return new Steering(*this);
 }

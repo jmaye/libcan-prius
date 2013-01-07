@@ -50,3 +50,17 @@ PRIUSMessage::~PRIUSMessage() {
 int PRIUSMessage::getTypeID() const {
   return mTypeID;
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
+
+BinaryReader& operator >> (BinaryReader& stream, PRIUSMessage& obj) {
+  obj.read(stream);
+  return stream;
+}
+
+BinaryWriter& operator << (BinaryWriter& stream, const PRIUSMessage& obj) {
+  obj.write(stream);
+  return stream;
+}

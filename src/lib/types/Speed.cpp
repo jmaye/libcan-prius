@@ -16,37 +16,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/PRIUSReader.h"
+#include "types/Speed.h"
 
-#include "base/Factory.h"
-#include "types/PRIUSMessage.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const Speed Speed::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PRIUSReader::PRIUSReader(CANConnection& device) :
-    mDevice(device) {
+Speed::Speed() :
+    PRIUSMessage(0x3ca) {
 }
 
-PRIUSReader::~PRIUSReader() {
+Speed::Speed(const Speed &other) :
+    PRIUSMessage(other),
+    mSpeed(other.mSpeed) {
+}
+
+Speed& Speed::operator = (const Speed& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mSpeed = other.mSpeed;
+  }
+  return *this;
+}
+
+Speed::~Speed() {
+}
+
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void Speed::read(BinaryReader& stream) {
+  stream >> mSpeed;
+}
+
+void Speed::write(BinaryWriter& stream) const {
+  stream << mTypeID << mSpeed;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-std::shared_ptr<PRIUSMessage> PRIUSReader::readMessage() {
-  CANConnection::Message canMessage;
-  do {
-    mDevice.receiveMessage(canMessage);
-  }
-  while (!Factory<int, PRIUSMessage>::getInstance().isRegistered(
-    canMessage.id));
-  std::shared_ptr<PRIUSMessage>
-    priusMessage(Factory<int, PRIUSMessage>::getInstance().create(
-    canMessage.id));
-  priusMessage->fillData(canMessage.content);
-  return priusMessage;
+void Speed::fillData(const unsigned char* data) {
+  mSpeed = data[2];
+}
+
+Speed* Speed::clone() const {
+  return new Speed(*this);
 }
