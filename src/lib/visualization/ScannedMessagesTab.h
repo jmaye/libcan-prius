@@ -16,29 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file KnownMessagesTab.h
-    \brief This file defines the KnownMessagesTab class which displays all the
-           known messages.
+/** \file ScannedMessagesTab.h
+    \brief This file defines the ScannedMessagesTab class which displays all the
+           scanned messages.
   */
 
-#ifndef KNOWNMESSAGESTAB_H
-#define KNOWNMESSAGESTAB_H
+#ifndef SCANNEDMESSAGESTAB_H
+#define SCANNEDMESSAGESTAB_H
 
 #include <memory>
+#include <map>
+#include <utility>
+
+#include <QtGui/QGridLayout>
+#include <QtGui/QLabel>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
+#include "com/CANConnection.h"
 
-class Ui_KnownMessagesTab;
-class PRIUSMessage;
+class Ui_ScannedMessagesTab;
 
-/** The KnownMessagesTab class is the control for the known messages from the
+/** The ScannedMessagesTab class is the control for the scanned messages from
     PRIUS
-    \brief Known messages display
+    \brief Scanned messages display
   */
-class KnownMessagesTab :
+class ScannedMessagesTab :
   public Control,
-  public Singleton<KnownMessagesTab> {
+  public Singleton<ScannedMessagesTab> {
 
 Q_OBJECT
 
@@ -46,9 +51,31 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  KnownMessagesTab(const KnownMessagesTab& other);
+  ScannedMessagesTab(const ScannedMessagesTab& other);
   /// Assignment operator
-  KnownMessagesTab& operator = (const KnownMessagesTab& other);
+  ScannedMessagesTab& operator = (const ScannedMessagesTab& other);
+  /** @}
+    */
+
+  /** \name Types definitions
+    @{
+    */
+  /// CAN message displaying
+  class CANMsgDisplay :
+    public QWidget {
+  public:
+    /// Constructor
+    CANMsgDisplay(QWidget* parent = 0) {
+      msgLayout = new QGridLayout(this);
+      idLabel = new QLabel(this);
+      msgLayout->addWidget(idLabel, 0, 0);
+      contentLabel = new QLabel(this);
+      msgLayout->addWidget(contentLabel, 0, 1);
+    }
+    QGridLayout* msgLayout;
+    QLabel* idLabel;
+    QLabel* contentLabel;
+  };
   /** @}
     */
 
@@ -57,9 +84,9 @@ public:
     @{
     */
   /// Default constructor
-  KnownMessagesTab();
+  ScannedMessagesTab();
   /// Destructor
-  virtual ~KnownMessagesTab();
+  virtual ~ScannedMessagesTab();
   /** @}
     */
 
@@ -74,7 +101,13 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_KnownMessagesTab* mUi;
+  Ui_ScannedMessagesTab* mUi;
+  /// Map containing already received messages
+  std::map<int, std::pair<int, int>> mMessages;
+  /// Number of rows
+  int mNumRows;
+  /// Number of columns
+  int mNumCols;
   /** @}
     */
 
@@ -83,10 +116,10 @@ protected slots:
     @{
     */
   /// Message read
-  void readMessage(std::shared_ptr<PRIUSMessage> message);
+  void readMessage(std::shared_ptr<CANConnection::Message> message);
   /** @}
     */
 
 };
 
-#endif // KNOWNMESSAGESTAB_H
+#endif // SCANNEDMESSAGESTAB_H

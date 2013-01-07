@@ -29,7 +29,7 @@
 #include "com/CANConnection.h"
 #include "visualization/CANScanCom.h"
 #include "visualization/MainWindow.h"
-#include "visualization/KnownMessagesTab.h"
+#include "visualization/ScannedMessagesTab.h"
 
 Q_DECLARE_METATYPE(std::shared_ptr<CANConnection::Message>);
 Q_DECLARE_METATYPE(std::string);
@@ -45,15 +45,15 @@ int main(int argc, char** argv) {
   canThread->start();
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Toyota PRIUS CAN View");
-  KnownMessagesTab knownMessagesTab;
-  mainWindow.addControl("Known Messages", knownMessagesTab);
+  ScannedMessagesTab scannedMessagesTab;
+  mainWindow.addControl("Scanned Messages", scannedMessagesTab);
   QObject::connect(&canCom,
     SIGNAL(comException(const std::string&)),
     &mainWindow,
     SLOT(comException(const std::string&)));
   QObject::connect(&canCom,
     SIGNAL(readMessage(std::shared_ptr<CANConnection::Message>)),
-    &knownMessagesTab,
+    &scannedMessagesTab,
     SLOT(readMessage(std::shared_ptr<CANConnection::Message>)));
   mainWindow.show();
   const int ret = application.exec();
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
     SLOT(comException(const std::string&)));
   QObject::disconnect(&canCom,
     SIGNAL(readMessage(std::shared_ptr<CANConnection::Message>)),
-    &knownMessagesTab,
+    &scannedMessagesTab,
     SLOT(readMessage(std::shared_ptr<CANConnection::Message>)));
   return ret;
 }

@@ -16,26 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/KnownMessagesTab.h"
+#include "visualization/ScannedMessagesTab.h"
 
-#include "types/FrontWheelsSpeed.h"
-#include "types/RearWheelsSpeed.h"
-#include "types/Speed.h"
-#include "types/Steering.h"
-#include "types/PRIUSMessage.h"
+#include "ui_ScannedMessagesTab.h"
 
-#include "ui_KnownMessagesTab.h"
+#include <sstream>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-KnownMessagesTab::KnownMessagesTab() :
-    mUi(new Ui_KnownMessagesTab()) {
+ScannedMessagesTab::ScannedMessagesTab() :
+    mUi(new Ui_ScannedMessagesTab()),
+    mNumRows(0),
+    mNumCols(0) {
   mUi->setupUi(this);
 }
 
-KnownMessagesTab::~KnownMessagesTab() {
+ScannedMessagesTab::~ScannedMessagesTab() {
   delete mUi;
 }
 
@@ -43,23 +41,32 @@ KnownMessagesTab::~KnownMessagesTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void KnownMessagesTab::readMessage(std::shared_ptr<PRIUSMessage> message) {
-  if (message->instanceOf<FrontWheelsSpeed>()) {
-    const FrontWheelsSpeed& fws = message->typeCast<FrontWheelsSpeed>();
-    mUi->fwsLeftSpinBox->setValue(fws.mLeft);
-    mUi->fwsRightSpinBox->setValue(fws.mRight);
+void ScannedMessagesTab::readMessage(std::shared_ptr<CANConnection::Message>
+    message) {
+  std::stringstream idStream;
+  idStream << std::hex << message->id;
+  std::stringstream contentStream;
+  for (int i = 0; i < message->length; ++i)
+    contentStream << message->content[i];
+  CANMsgDisplay* canMsg = 0;
+  if (mMessages.find(message->id) != mMessages.end()) {
+    std::pair<int, int> pos = mMessages[message->id];
+    QWidget* canWidget =
+      mUi->messagesLayout->itemAtPosition(pos.first, pos.second)->widget();
+    canMsg = dynamic_cast<CANMsgDisplay*>(canWidget);
   }
-  else if (message->instanceOf<RearWheelsSpeed>()) {
-    const RearWheelsSpeed& rws = message->typeCast<RearWheelsSpeed>();
-    mUi->rwsLeftSpinBox->setValue(rws.mLeft);
-    mUi->rwsRightSpinBox->setValue(rws.mRight);
+  else {
+    mMessages[message->id] = std::pair<int, int>(mNumRows, mNumCols);
+    canMsg = new CANMsgDisplay(this);
+    mUi->messagesLayout->addWidget(canMsg, mNumRows, mNumCols);
+    if (mNumRows == 25) {
+      mNumRows = 0;
+      mNumCols++;
+    }
+    else
+      mNumRows++;
   }
-  else if (message->instanceOf<Speed>()) {
-    const Speed& sp = message->typeCast<Speed>();
-    mUi->vsSpinBox->setValue(sp.mSpeed);
-  }
-  else if (message->instanceOf<Steering>()) {
-    const Steering& st = message->typeCast<Steering>();
-    mUi->stSpinBox->setValue(st.mAngle);
-  }
+  canMsg->idLabel->setText(QString(idStream.str().c_str()));
+  canMsg->contentLabel->setText(QString(contentStream.str().c_str()));
+  canMsg->repaint();
 }
