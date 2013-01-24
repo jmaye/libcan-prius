@@ -61,7 +61,7 @@ public:
   /** \name Members
     @{
     */
-  /// Velocity
+  /// Velocity [km/h]
   uint8_t mSpeed;
   /// Prototype for this message
   static const Speed mProto;

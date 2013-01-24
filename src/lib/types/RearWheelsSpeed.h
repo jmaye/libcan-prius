@@ -61,10 +61,10 @@ public:
   /** \name Members
     @{
     */
-  /// Right wheel speed
-  uint16_t mRight;
-  /// Left wheel speed
-  uint16_t mLeft;
+  /// Right wheel speed [m/s]
+  double mRight;
+  /// Left wheel speed [m/s]
+  double mLeft;
   /// Prototype for this message
   static const RearWheelsSpeed mProto;
   /** @}

@@ -70,8 +70,10 @@ void FrontWheelsSpeed::write(BinaryWriter& stream) const {
 /******************************************************************************/
 
 void FrontWheelsSpeed::fillData(const unsigned char* data) {
-  mRight = (data[0] << 8) | (data[1] << 0);
-  mLeft = (data[2] << 8) | (data[3] << 0);
+  uint16_t mRightRead = (data[0] << 8) | (data[1] << 0);
+  uint16_t mLeftRead = (data[2] << 8) | (data[3] << 0);
+  mRight = mRightRead / 100.0 / 3.6;
+  mLeft = mLeftRead / 100.0 / 3.6;
 }
 
 FrontWheelsSpeed* FrontWheelsSpeed::clone() const {
