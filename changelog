@@ -1,0 +1,65 @@
+libcan-prius (1.0-11) lucid; urgency=low
+
+  * porting to distribution
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 18 Apr 2013 12:44:09 +0200
+
+libcan-prius (1.0-10) unstable; urgency=low
+
+  * update codes
+
+ -- jmaye <jmaye@unknown>  Thu, 24 Jan 2013 11:03:20 +0100
+
+libcan-prius (1.0-9) unstable; urgency=low
+
+  * added scanning function
+
+ -- jmaye <jmaye@unknown>  Mon, 07 Jan 2013 17:12:59 +0100
+
+libcan-prius (1.0-8) unstable; urgency=low
+
+  * update code
+
+ -- jmaye <jmaye@unknown>  Mon, 07 Jan 2013 16:09:11 +0100
+
+libcan-prius (1.0-7) unstable; urgency=low
+
+  * Visualization added
+
+ -- jmaye <jmaye@unknown>  Mon, 07 Jan 2013 16:00:42 +0100
+
+libcan-prius (1.0-6) unstable; urgency=low
+
+  * update code
+
+ -- jmaye <jmaye@unknown>  Mon, 07 Jan 2013 13:02:50 +0100
+
+libcan-prius (1.0-5) unstable; urgency=low
+
+  * update code
+
+ -- jmaye <jmaye@unknown>  Sun, 06 Jan 2013 19:39:04 +0100
+
+libcan-prius (1.0-4) unstable; urgency=low
+
+  * update C++ CAN wrapper
+
+ -- jmaye <jmaye@unknown>  Fri, 04 Jan 2013 17:09:16 +0100
+
+libcan-prius (1.0-3) unstable; urgency=low
+
+  * update code
+
+ -- jmaye <jmaye@unknown>  Fri, 04 Jan 2013 15:31:01 +0100
+
+libcan-prius (1.0-2) unstable; urgency=low
+
+  * cleaning up the code
+
+ -- jmaye <jmaye@unknown>  Fri, 04 Jan 2013 15:23:45 +0100
+
+libcan-prius (0.1-1) unstable; urgency=low
+
+  * First commit
+
+ -- jmaye <jmaye@unknown>  Wed, 11 Aug 2010 14:09:22 +0200

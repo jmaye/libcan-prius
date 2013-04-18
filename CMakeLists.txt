@@ -2,12 +2,10 @@ cmake_minimum_required(VERSION 2.6)
 
 include(ReMake)
 
-remake_set(CMAKE_CXX_FLAGS -std=c++0x CACHE FORCE INIT)
-
 remake_project(
   libcan-prius
-  VERSION 1.0
-  RELEASE beta
+  VERSION 0.1
+  RELEASE alpha
   SUMMARY "A C++ based Toyota PRIUS CAN interfacing library"
   AUTHOR "Jerome Maye"
   CONTACT "jerome.maye@mavt.ethz.ch"
@@ -15,6 +13,7 @@ remake_project(
   LICENSE "GNU Lesser General Public License (LGPL)"
   PREFIX can-prius-
   INSTALL /usr/
+  EXTRA_CXX_FLAGS -std=c++0x
 )
 
 remake_doc(
@@ -24,29 +23,51 @@ remake_doc(
 
 remake_pack_deb(
   DESCRIPTION "Main library"
+  DEPENDS libcan
 )
 
 remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
-  libcan-prius
+  DEPENDS libcan-prius libcan-dev
 )
 
 remake_pack_deb(
   COMPONENT console-tools
   DESCRIPTION "Console tools"
-  libcan-prius
+  DEPENDS libcan-prius
 )
 
 remake_pack_deb(
   COMPONENT gui-tools
   DESCRIPTION "GUI tools"
-  libcan-prius
-  libqtgui4
+  DEPENDS libcan-prius libqtgui4
+)
+
+remake_pack_deb(
+  COMPONENT gui-tools-dev
+  DESCRIPTION "GUI tools development headers"
+  DEPENDS libcan-prius-dev libqt4-dev
 )
 
 remake_pack_deb(
   COMPONENT doc
   DESCRIPTION "Documentation"
-  libcan-prius
+  DEPENDS libcan-prius
+)
+
+remake_distribute_deb(
+  DISTRIBUTION lucid
+  SECTION libs
+  UPLOAD ppa:jmaye/ethz
+  DEPENDS remake doxygen libcan-dev libqt4-dev
+  PASS CMAKE_BUILD_TYPE LIBVELODYNE_SUBVERSION_REVISION
+)
+
+remake_distribute_deb(
+  DISTRIBUTION precise
+  SECTION libs
+  UPLOAD ppa:jmaye/ethz
+  DEPENDS remake doxygen libcan-dev libqt4-dev
+  PASS CMAKE_BUILD_TYPE LIBVELODYNE_SUBVERSION_REVISION
 )
