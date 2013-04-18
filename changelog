@@ -1,4 +1,10 @@
-libcan-prius (0.1-12ubuntu1) lucid; urgency=low
+libcan-prius (0.1-13) lucid; urgency=low
+
+  * corrected changelog
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 18 Apr 2013 12:46:45 +0200
+
+libcan-prius (0.1-12) lucid; urgency=low
 
   * corrected changelog
 
