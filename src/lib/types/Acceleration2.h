@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FrontWheelsSpeed.h
-    \brief This file defines the FrontWheelsSpeed class, which represents the
-           velocity of the front wheels.
+/** \file Acceleration2.h
+    \brief This file defines the Acceleration2 class, which represents the
+           longitudinal acceleration sensor.
   */
 
-#ifndef FRONTWHEELSSPEED_H
-#define FRONTWHEELSSPEED_H
+#ifndef ACCELERATION2_H
+#define ACCELERATION2_H
 
 #include <stdint.h>
 
 #include "types/PRIUSMessage.h"
 
-/** The class FrontWheelsSpeed contains the velocity of the front wheels.
-    \brief Velocity of the front wheels.
+/** The class Acceleration2 contains the longitudinal acceleration sensor.
+    \brief Longitudinal acceleration sensor
   */
-class FrontWheelsSpeed :
+class Acceleration2 :
   public PRIUSMessage {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  FrontWheelsSpeed();
+  Acceleration2();
   /// Copy constructor
-  FrontWheelsSpeed(const FrontWheelsSpeed& other);
+  Acceleration2(const Acceleration2& other);
   /// Assignement operator
-  FrontWheelsSpeed& operator = (const FrontWheelsSpeed& other);
+  Acceleration2& operator = (const Acceleration2& other);
   /// Destructor
-  virtual ~FrontWheelsSpeed();
+  virtual ~Acceleration2();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this message
-  virtual FrontWheelsSpeed* clone() const;
+  virtual Acceleration2* clone() const;
   /// Fill data into the message
   virtual void fillData(const unsigned char* data);
   /** @}
@@ -61,12 +61,12 @@ public:
   /** \name Members
     @{
     */
-  /// Right wheel measurement
-  uint16_t mRight;
-  /// Left wheel measurement
-  uint16_t mLeft;
+  /// Value 1
+  uint16_t mValue1;
+  /// Value 2
+  uint16_t mValue2;
   /// Prototype for this message
-  static const FrontWheelsSpeed mProto;
+  static const Acceleration2 mProto;
   /** @}
     */
 
@@ -83,4 +83,4 @@ protected:
 
 };
 
-#endif // FRONTWHEELSSPEED_H
+#endif // ACCELERATION2_H

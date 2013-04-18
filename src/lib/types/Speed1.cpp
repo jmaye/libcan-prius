@@ -16,53 +16,62 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/CANCom.h"
+#include "types/Speed1.h"
 
-#include "sensor/PRIUSReader.h"
-#include "exceptions/IOException.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const Speed1 Speed1::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-CANCom::CANCom(PRIUSReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime) {
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+Speed1::Speed1() :
+    PRIUSMessage(0xb4) {
 }
 
-CANCom::~CANCom() {
+Speed1::Speed1(const Speed1 &other) :
+    PRIUSMessage(other),
+    mValue(other.mValue) {
+}
+
+Speed1& Speed1::operator = (const Speed1& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mValue = other.mValue;
+  }
+  return *this;
+}
+
+Speed1::~Speed1() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
+/* Stream operations                                                          */
 /******************************************************************************/
 
-double CANCom::getPollingTime() const {
-  return mPollingTime;
+void Speed1::read(BinaryReader& stream) {
+  stream >> mValue;
 }
 
-void CANCom::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
+void Speed1::write(BinaryWriter& stream) const {
+  stream << mTypeID << mValue;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void CANCom::timerTimeout() {
-  try {
-    if (!mDevice.getConnection().isOpen())
-      mDevice.getConnection().open();
-    std::shared_ptr<PRIUSMessage> message = mDevice.readMessage();
-    emit readMessage(message);
-    emit deviceConnected(true);
-  }
-  catch (IOException& e) {
-    emit comException(e.what());
-  }
+void Speed1::fillData(const unsigned char* data) {
+  uint16_t msg = (data[5] << 8) | (data[6] << 0);
+  mValue = msg;
+}
+
+Speed1* Speed1::clone() const {
+  return new Speed1(*this);
 }

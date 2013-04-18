@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Speed.h
-    \brief This file defines the Speed class, which represents the
-           velocity of the vehicle.
+/** \file Steering1.h
+    \brief This file defines the Steering1 class, which represents the
+           steering sensor 1.
   */
 
-#ifndef SPEED_H
-#define SPEED_H
+#ifndef STEERING1_H
+#define STEERING1_H
 
 #include <stdint.h>
 
 #include "types/PRIUSMessage.h"
 
-/** The class Speed contains the velocity of the vehicle.
-    \brief Velocity of the vehicle
+/** The class Steering1 contains the steering sensor 1.
+    \brief Steering sensor 1
   */
-class Speed :
+class Steering1 :
   public PRIUSMessage {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  Speed();
+  Steering1();
   /// Copy constructor
-  Speed(const Speed& other);
+  Steering1(const Steering1& other);
   /// Assignement operator
-  Speed& operator = (const Speed& other);
+  Steering1& operator = (const Steering1& other);
   /// Destructor
-  virtual ~Speed();
+  virtual ~Steering1();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this message
-  virtual Speed* clone() const;
+  virtual Steering1* clone() const;
   /// Fill data into the message
   virtual void fillData(const unsigned char* data);
   /** @}
@@ -61,10 +61,10 @@ public:
   /** \name Members
     @{
     */
-  /// Velocity [km/h]
-  uint8_t mSpeed;
+  /// Steering measurement
+  int16_t mValue;
   /// Prototype for this message
-  static const Speed mProto;
+  static const Steering1 mProto;
   /** @}
     */
 
@@ -81,4 +81,4 @@ protected:
 
 };
 
-#endif // SPEED_H
+#endif // STEERING1_H

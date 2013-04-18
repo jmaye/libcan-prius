@@ -47,7 +47,7 @@ void ScannedMessagesTab::readMessage(std::shared_ptr<CANConnection::Message>
   idStream << std::hex << message->id;
   std::stringstream contentStream;
   for (int i = 0; i < message->length; ++i)
-    contentStream << message->content[i];
+    contentStream << std::hex << (int)(message->content[i]) << " ";
   CANMsgDisplay* canMsg = 0;
   if (mMessages.find(message->id) != mMessages.end()) {
     std::pair<int, int> pos = mMessages[message->id];
@@ -59,7 +59,7 @@ void ScannedMessagesTab::readMessage(std::shared_ptr<CANConnection::Message>
     mMessages[message->id] = std::pair<int, int>(mNumRows, mNumCols);
     canMsg = new CANMsgDisplay(this);
     mUi->messagesLayout->addWidget(canMsg, mNumRows, mNumCols);
-    if (mNumRows == 25) {
+    if (mNumRows == 20) {
       mNumRows = 0;
       mNumCols++;
     }
@@ -67,6 +67,8 @@ void ScannedMessagesTab::readMessage(std::shared_ptr<CANConnection::Message>
       mNumRows++;
   }
   canMsg->idLabel->setText(QString(idStream.str().c_str()));
+  canMsg->idLabel->adjustSize();
   canMsg->contentLabel->setText(QString(contentStream.str().c_str()));
+  canMsg->contentLabel->adjustSize();
   canMsg->repaint();
 }

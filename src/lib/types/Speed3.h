@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FrontWheelsSpeed.h
-    \brief This file defines the FrontWheelsSpeed class, which represents the
-           velocity of the front wheels.
+/** \file Speed3.h
+    \brief This file defines the Speed3 class, which represents the
+           velocity sensor 3 of the vehicle.
   */
 
-#ifndef FRONTWHEELSSPEED_H
-#define FRONTWHEELSSPEED_H
+#ifndef SPEED3_H
+#define SPEED3_H
 
 #include <stdint.h>
 
 #include "types/PRIUSMessage.h"
 
-/** The class FrontWheelsSpeed contains the velocity of the front wheels.
-    \brief Velocity of the front wheels.
+/** The class Speed3 contains the velocity sensor 3 of the vehicle.
+    \brief Velocity sensor 3 of the vehicle
   */
-class FrontWheelsSpeed :
+class Speed3 :
   public PRIUSMessage {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  FrontWheelsSpeed();
+  Speed3();
   /// Copy constructor
-  FrontWheelsSpeed(const FrontWheelsSpeed& other);
+  Speed3(const Speed3& other);
   /// Assignement operator
-  FrontWheelsSpeed& operator = (const FrontWheelsSpeed& other);
+  Speed3& operator = (const Speed3& other);
   /// Destructor
-  virtual ~FrontWheelsSpeed();
+  virtual ~Speed3();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this message
-  virtual FrontWheelsSpeed* clone() const;
+  virtual Speed3* clone() const;
   /// Fill data into the message
   virtual void fillData(const unsigned char* data);
   /** @}
@@ -61,12 +61,12 @@ public:
   /** \name Members
     @{
     */
-  /// Right wheel measurement
-  uint16_t mRight;
-  /// Left wheel measurement
-  uint16_t mLeft;
+  /// Throttle
+  uint8_t mThrottle;
+  /// Speed
+  int16_t mSpeed;
   /// Prototype for this message
-  static const FrontWheelsSpeed mProto;
+  static const Speed3 mProto;
   /** @}
     */
 
@@ -83,4 +83,4 @@ protected:
 
 };
 
-#endif // FRONTWHEELSSPEED_H
+#endif // SPEED3_H

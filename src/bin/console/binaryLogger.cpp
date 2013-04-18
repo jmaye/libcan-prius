@@ -20,6 +20,10 @@
     \brief This file is a testing binary for logging binary data.
   */
 
+#include <iostream>
+#include <fstream>
+#include <memory>
+
 #include "com/CANConnection.h"
 #include "sensor/PRIUSReader.h"
 #include "exceptions/IOException.h"

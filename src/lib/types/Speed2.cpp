@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/Speed.h"
+#include "types/Speed2.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -25,52 +25,52 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const Speed Speed::mProto;
+const Speed2 Speed2::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Speed::Speed() :
+Speed2::Speed2() :
     PRIUSMessage(0x3ca) {
 }
 
-Speed::Speed(const Speed &other) :
+Speed2::Speed2(const Speed2 &other) :
     PRIUSMessage(other),
-    mSpeed(other.mSpeed) {
+    mValue(other.mValue) {
 }
 
-Speed& Speed::operator = (const Speed& other) {
+Speed2& Speed2::operator = (const Speed2& other) {
   if (this != &other) {
     PRIUSMessage::operator=(other);
-    mSpeed = other.mSpeed;
+    mValue = other.mValue;
   }
   return *this;
 }
 
-Speed::~Speed() {
+Speed2::~Speed2() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Speed::read(BinaryReader& stream) {
-  stream >> mSpeed;
+void Speed2::read(BinaryReader& stream) {
+  stream >> mValue;
 }
 
-void Speed::write(BinaryWriter& stream) const {
-  stream << mTypeID << mSpeed;
+void Speed2::write(BinaryWriter& stream) const {
+  stream << mTypeID << mValue;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Speed::fillData(const unsigned char* data) {
-  mSpeed = data[2];
+void Speed2::fillData(const unsigned char* data) {
+  mValue = data[2];
 }
 
-Speed* Speed::clone() const {
-  return new Speed(*this);
+Speed2* Speed2::clone() const {
+  return new Speed2(*this);
 }

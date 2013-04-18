@@ -44,9 +44,9 @@ int main(int argc, char** argv) {
   CANConnection device;
   PRIUSReader reader(device);
   CANCom canCom(reader);
-  QThread* canThread = new QThread;
-  canCom.moveToThread(canThread);
-  canThread->start();
+//  QThread* canThread = new QThread;
+//  canCom.moveToThread(canThread);
+//  canThread->start();
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Toyota PRIUS CAN View");
   KnownMessagesTab knownMessagesTab;
@@ -55,6 +55,10 @@ int main(int argc, char** argv) {
     SIGNAL(comException(const std::string&)),
     &mainWindow,
     SLOT(comException(const std::string&)));
+  QObject::connect(&canCom,
+    SIGNAL(deviceConnected(bool)),
+    &mainWindow,
+    SLOT(deviceConnected(bool)));
   QObject::connect(&canCom,
     SIGNAL(readMessage(std::shared_ptr<PRIUSMessage>)),
     &knownMessagesTab,
@@ -65,6 +69,10 @@ int main(int argc, char** argv) {
     SIGNAL(comException(const std::string&)),
     &mainWindow,
     SLOT(comException(const std::string&)));
+  QObject::connect(&canCom,
+    SIGNAL(deviceConnected(bool)),
+    &mainWindow,
+    SLOT(deviceConnected(bool)));
   QObject::disconnect(&canCom,
     SIGNAL(readMessage(std::shared_ptr<PRIUSMessage>)),
     &knownMessagesTab,

@@ -56,9 +56,10 @@ void CANScanCom::timerTimeout() {
   try {
     if (!mDevice.isOpen())
       mDevice.open();
-    CANConnection::Message canMessage;
-    mDevice.receiveMessage(canMessage);
-//    emit readMessage(mDevice.receiveMessage());
+    std::shared_ptr<CANConnection::Message> canMessage(
+      new CANConnection::Message());
+    mDevice.receiveMessage(*canMessage);
+    emit readMessage(canMessage);
   }
   catch (IOException& e) {
     emit comException(e.what());

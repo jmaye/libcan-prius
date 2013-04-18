@@ -16,53 +16,64 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/CANCom.h"
+#include "types/Acceleration1.h"
 
-#include "sensor/PRIUSReader.h"
-#include "exceptions/IOException.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const Acceleration1 Acceleration1::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-CANCom::CANCom(PRIUSReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime) {
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+Acceleration1::Acceleration1() :
+    PRIUSMessage(0x22) {
 }
 
-CANCom::~CANCom() {
+Acceleration1::Acceleration1(const Acceleration1 &other) :
+    PRIUSMessage(other),
+    mValue1(other.mValue1),
+    mValue2(other.mValue2) {
+}
+
+Acceleration1& Acceleration1::operator = (const Acceleration1& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mValue1 = other.mValue1;
+    mValue2 = other.mValue2;
+  }
+  return *this;
+}
+
+Acceleration1::~Acceleration1() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
+/* Stream operations                                                          */
 /******************************************************************************/
 
-double CANCom::getPollingTime() const {
-  return mPollingTime;
+void Acceleration1::read(BinaryReader& stream) {
+  stream >> mValue1 >> mValue2;
 }
 
-void CANCom::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
+void Acceleration1::write(BinaryWriter& stream) const {
+  stream << mTypeID << mValue1 << mValue2;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void CANCom::timerTimeout() {
-  try {
-    if (!mDevice.getConnection().isOpen())
-      mDevice.getConnection().open();
-    std::shared_ptr<PRIUSMessage> message = mDevice.readMessage();
-    emit readMessage(message);
-    emit deviceConnected(true);
-  }
-  catch (IOException& e) {
-    emit comException(e.what());
-  }
+void Acceleration1::fillData(const unsigned char* data) {
+  mValue1 = (data[0] << 8) | (data[1] << 0);
+  mValue2 = (data[2] << 8) | (data[3] << 0);
+}
+
+Acceleration1* Acceleration1::clone() const {
+  return new Acceleration1(*this);
 }

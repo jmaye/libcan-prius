@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FrontWheelsSpeed.h
-    \brief This file defines the FrontWheelsSpeed class, which represents the
-           velocity of the front wheels.
+/** \file Speed1.h
+    \brief This file defines the Speed1 class, which represents the
+           velocity sensor 1 of the vehicle.
   */
 
-#ifndef FRONTWHEELSSPEED_H
-#define FRONTWHEELSSPEED_H
+#ifndef SPEED1_H
+#define SPEED1_H
 
 #include <stdint.h>
 
 #include "types/PRIUSMessage.h"
 
-/** The class FrontWheelsSpeed contains the velocity of the front wheels.
-    \brief Velocity of the front wheels.
+/** The class Speed1 contains the velocity sensor 1 of the vehicle.
+    \brief Velocity sensor 1 of the vehicle
   */
-class FrontWheelsSpeed :
+class Speed1 :
   public PRIUSMessage {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  FrontWheelsSpeed();
+  Speed1();
   /// Copy constructor
-  FrontWheelsSpeed(const FrontWheelsSpeed& other);
+  Speed1(const Speed1& other);
   /// Assignement operator
-  FrontWheelsSpeed& operator = (const FrontWheelsSpeed& other);
+  Speed1& operator = (const Speed1& other);
   /// Destructor
-  virtual ~FrontWheelsSpeed();
+  virtual ~Speed1();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this message
-  virtual FrontWheelsSpeed* clone() const;
+  virtual Speed1* clone() const;
   /// Fill data into the message
   virtual void fillData(const unsigned char* data);
   /** @}
@@ -61,12 +61,10 @@ public:
   /** \name Members
     @{
     */
-  /// Right wheel measurement
-  uint16_t mRight;
-  /// Left wheel measurement
-  uint16_t mLeft;
+  /// Value
+  uint16_t mValue;
   /// Prototype for this message
-  static const FrontWheelsSpeed mProto;
+  static const Speed1 mProto;
   /** @}
     */
 
@@ -83,4 +81,4 @@ protected:
 
 };
 
-#endif // FRONTWHEELSSPEED_H
+#endif // SPEED1_H

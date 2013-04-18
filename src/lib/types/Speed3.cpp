@@ -16,53 +16,68 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/CANCom.h"
+#include "types/Speed3.h"
 
-#include "sensor/PRIUSReader.h"
-#include "exceptions/IOException.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const Speed3 Speed3::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-CANCom::CANCom(PRIUSReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime) {
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+Speed3::Speed3() :
+    PRIUSMessage(0x244) {
 }
 
-CANCom::~CANCom() {
+Speed3::Speed3(const Speed3 &other) :
+    PRIUSMessage(other),
+    mThrottle(other.mThrottle),
+    mSpeed(other.mSpeed) {
+}
+
+Speed3& Speed3::operator = (const Speed3& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mThrottle = other.mThrottle;
+    mSpeed = other.mSpeed;
+  }
+  return *this;
+}
+
+Speed3::~Speed3() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
+/* Stream operations                                                          */
 /******************************************************************************/
 
-double CANCom::getPollingTime() const {
-  return mPollingTime;
+void Speed3::read(BinaryReader& stream) {
+  stream >> mThrottle >> mSpeed;
 }
 
-void CANCom::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
+void Speed3::write(BinaryWriter& stream) const {
+  stream << mTypeID << mThrottle << mSpeed;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void CANCom::timerTimeout() {
-  try {
-    if (!mDevice.getConnection().isOpen())
-      mDevice.getConnection().open();
-    std::shared_ptr<PRIUSMessage> message = mDevice.readMessage();
-    emit readMessage(message);
-    emit deviceConnected(true);
-  }
-  catch (IOException& e) {
-    emit comException(e.what());
-  }
+void Speed3::fillData(const unsigned char* data) {
+  mThrottle = data[6];
+  uint16_t msg = (data[4] << 8) | (data[5] << 0); // type is signed 16-bits
+  if (msg <= 65535) // 2^16-1
+    mSpeed = msg;
+  else
+    mSpeed = -(65536 - msg);
+}
+
+Speed3* Speed3::clone() const {
+  return new Speed3(*this);
 }

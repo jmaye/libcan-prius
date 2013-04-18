@@ -40,11 +40,11 @@ int main(int argc, char** argv) {
   QApplication application(argc, argv);
   CANConnection device;
   CANScanCom canCom(device);
-  QThread* canThread = new QThread;
-  canCom.moveToThread(canThread);
-  canThread->start();
+//  QThread* canThread = new QThread;
+//  canCom.moveToThread(canThread);
+//  canThread->start();
   MainWindow mainWindow;
-  mainWindow.setWindowTitle("Toyota PRIUS CAN View");
+  mainWindow.setWindowTitle("Toyota PRIUS CAN Scan");
   ScannedMessagesTab scannedMessagesTab;
   mainWindow.addControl("Scanned Messages", scannedMessagesTab);
   QObject::connect(&canCom,

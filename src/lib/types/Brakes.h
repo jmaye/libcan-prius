@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Steering.h
-    \brief This file defines the Steering class, which represents the
-           steering angle.
+/** \file Brakes.h
+    \brief This file defines the Brakes class, which represents the
+           brakes sensor.
   */
 
-#ifndef STEERING_H
-#define STEERING_H
+#ifndef BRAKES_H
+#define BRAKES_H
 
 #include <stdint.h>
 
 #include "types/PRIUSMessage.h"
 
-/** The class Steering contains the steering angle.
-    \brief Steering angle
+/** The class Brakes contains the brakes sensor.
+    \brief Brakes sensor
   */
-class Steering :
+class Brakes :
   public PRIUSMessage {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  Steering();
+  Brakes();
   /// Copy constructor
-  Steering(const Steering& other);
+  Brakes(const Brakes& other);
   /// Assignement operator
-  Steering& operator = (const Steering& other);
+  Brakes& operator = (const Brakes& other);
   /// Destructor
-  virtual ~Steering();
+  virtual ~Brakes();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this message
-  virtual Steering* clone() const;
+  virtual Brakes* clone() const;
   /// Fill data into the message
   virtual void fillData(const unsigned char* data);
   /** @}
@@ -61,10 +61,10 @@ public:
   /** \name Members
     @{
     */
-  /// Steering angle
-  int16_t mAngle;
+  /// Value
+  uint8_t mValue;
   /// Prototype for this message
-  static const Steering mProto;
+  static const Brakes mProto;
   /** @}
     */
 
@@ -81,4 +81,4 @@ protected:
 
 };
 
-#endif // STEERING_H
+#endif // BRAKES_H

@@ -20,8 +20,14 @@
 
 #include "types/FrontWheelsSpeed.h"
 #include "types/RearWheelsSpeed.h"
-#include "types/Speed.h"
-#include "types/Steering.h"
+#include "types/Speed1.h"
+#include "types/Speed2.h"
+#include "types/Speed3.h"
+#include "types/Steering1.h"
+#include "types/Steering2.h"
+#include "types/Brakes.h"
+#include "types/Acceleration1.h"
+#include "types/Acceleration2.h"
 #include "types/PRIUSMessage.h"
 
 #include "ui_KnownMessagesTab.h"
@@ -54,12 +60,39 @@ void KnownMessagesTab::readMessage(std::shared_ptr<PRIUSMessage> message) {
     mUi->rwsLeftSpinBox->setValue(rws.mLeft);
     mUi->rwsRightSpinBox->setValue(rws.mRight);
   }
-  else if (message->instanceOf<Speed>()) {
-    const Speed& sp = message->typeCast<Speed>();
-    mUi->vsSpinBox->setValue(sp.mSpeed);
+  else if (message->instanceOf<Speed1>()) {
+    const Speed1& sp = message->typeCast<Speed1>();
+    mUi->vsSpinBox1->setValue(sp.mValue);
   }
-  else if (message->instanceOf<Steering>()) {
-    const Steering& st = message->typeCast<Steering>();
-    mUi->stSpinBox->setValue(st.mAngle);
+  else if (message->instanceOf<Speed2>()) {
+    const Speed2& sp = message->typeCast<Speed2>();
+    mUi->vsSpinBox2->setValue(sp.mValue);
+  }
+  else if (message->instanceOf<Speed3>()) {
+    const Speed3& sp = message->typeCast<Speed3>();
+    mUi->vsSpinBox3->setValue(sp.mThrottle);
+    mUi->vsSpinBox4->setValue(sp.mSpeed);
+  }
+  else if (message->instanceOf<Steering1>()) {
+    const Steering1& st = message->typeCast<Steering1>();
+    mUi->stSpinBox1->setValue(st.mValue);
+  }
+  else if (message->instanceOf<Steering2>()) {
+    const Steering2& st = message->typeCast<Steering2>();
+    mUi->stSpinBox2->setValue(st.mValue);
+  }
+  else if (message->instanceOf<Brakes>()) {
+    const Brakes& b = message->typeCast<Brakes>();
+    mUi->bSpinBox->setValue(b.mValue);
+  }
+  else if (message->instanceOf<Acceleration1>()) {
+    const Acceleration1& a = message->typeCast<Acceleration1>();
+    mUi->a1SpinBox1->setValue(a.mValue1);
+    mUi->a1SpinBox2->setValue(a.mValue2);
+  }
+  else if (message->instanceOf<Acceleration2>()) {
+    const Acceleration2& a = message->typeCast<Acceleration2>();
+    mUi->a2SpinBox1->setValue(a.mValue1);
+    mUi->a2SpinBox2->setValue(a.mValue2);
   }
 }

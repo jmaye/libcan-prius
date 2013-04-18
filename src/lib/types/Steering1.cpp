@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/Steering.h"
+#include "types/Steering1.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -25,56 +25,56 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const Steering Steering::mProto;
+const Steering1 Steering1::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Steering::Steering() :
-    PRIUSMessage(0x25) {
+Steering1::Steering1() :
+    PRIUSMessage(0x264) {
 }
 
-Steering::Steering(const Steering &other) :
+Steering1::Steering1(const Steering1 &other) :
     PRIUSMessage(other),
-    mAngle(other.mAngle) {
+    mValue(other.mValue) {
 }
 
-Steering& Steering::operator = (const Steering& other) {
+Steering1& Steering1::operator = (const Steering1& other) {
   if (this != &other) {
     PRIUSMessage::operator=(other);
-    mAngle = other.mAngle;
+    mValue = other.mValue;
   }
   return *this;
 }
 
-Steering::~Steering() {
+Steering1::~Steering1() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Steering::read(BinaryReader& stream) {
-  stream >> mAngle;
+void Steering1::read(BinaryReader& stream) {
+  stream >> mValue;
 }
 
-void Steering::write(BinaryWriter& stream) const {
-  stream << mTypeID << mAngle;
+void Steering1::write(BinaryWriter& stream) const {
+  stream << mTypeID << mValue;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Steering::fillData(const unsigned char* data) {
-  uint16_t msg = (data[0] << 8) | (data[1] << 0);
-  if (msg <= 0x1B7)
-    mAngle = msg;
+void Steering1::fillData(const unsigned char* data) {
+  uint16_t msg = (data[0] << 8) | (data[1] << 0); // type is signed 12-bits
+  if (msg <= 2047) // 2^11-1
+    mValue = msg;
   else
-    mAngle = -(4096 - msg);
+    mValue = -(4096 - msg);
 }
 
-Steering* Steering::clone() const {
-  return new Steering(*this);
+Steering1* Steering1::clone() const {
+  return new Steering1(*this);
 }

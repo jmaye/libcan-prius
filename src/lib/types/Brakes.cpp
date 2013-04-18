@@ -16,53 +16,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/CANCom.h"
+#include "types/Brakes.h"
 
-#include "sensor/PRIUSReader.h"
-#include "exceptions/IOException.h"
-#include "com/CANConnection.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const Brakes Brakes::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-CANCom::CANCom(PRIUSReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime) {
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+Brakes::Brakes() :
+    PRIUSMessage(0x30) {
 }
 
-CANCom::~CANCom() {
+Brakes::Brakes(const Brakes &other) :
+    PRIUSMessage(other),
+    mValue(other.mValue) {
+}
+
+Brakes& Brakes::operator = (const Brakes& other) {
+  if (this != &other) {
+    PRIUSMessage::operator=(other);
+    mValue = other.mValue;
+  }
+  return *this;
+}
+
+Brakes::~Brakes() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
+/* Stream operations                                                          */
 /******************************************************************************/
 
-double CANCom::getPollingTime() const {
-  return mPollingTime;
+void Brakes::read(BinaryReader& stream) {
+  stream >> mValue;
 }
 
-void CANCom::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
+void Brakes::write(BinaryWriter& stream) const {
+  stream << mTypeID << mValue;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void CANCom::timerTimeout() {
-  try {
-    if (!mDevice.getConnection().isOpen())
-      mDevice.getConnection().open();
-    std::shared_ptr<PRIUSMessage> message = mDevice.readMessage();
-    emit readMessage(message);
-    emit deviceConnected(true);
-  }
-  catch (IOException& e) {
-    emit comException(e.what());
-  }
+void Brakes::fillData(const unsigned char* data) {
+  mValue = data[4];
+}
+
+Brakes* Brakes::clone() const {
+  return new Brakes(*this);
 }

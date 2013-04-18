@@ -54,7 +54,7 @@ public:
     @{
     */
   /// Constructs reader with polling time and device
-  CANScanCom(CANConnection& device, double pollingTime = 0);
+  CANScanCom(CANConnection& device, double pollingTime = 0.0);
   /// Destructor
   virtual ~CANScanCom();
   /** @}

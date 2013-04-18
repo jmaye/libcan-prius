@@ -101,6 +101,8 @@ signals:
   void readMessage(std::shared_ptr<PRIUSMessage> message);
   /// Com exception
   void comException(const std::string& msg);
+  /// Device connected notification
+  void deviceConnected(bool connected);
   /** @}
     */
 

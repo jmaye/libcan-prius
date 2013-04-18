@@ -24,12 +24,12 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>211</width>
+     <width>221</width>
      <height>121</height>
     </rect>
    </property>
    <property name="title">
-    <string>Front Wheels Speed</string>
+    <string>Front Wheels Speed Sensors</string>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -59,6 +59,12 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
       </widget>
      </item>
      <item row="3" column="0">
@@ -76,6 +82,12 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
       </widget>
      </item>
     </layout>
@@ -86,12 +98,12 @@
     <rect>
      <x>350</x>
      <y>20</y>
-     <width>211</width>
+     <width>221</width>
      <height>121</height>
     </rect>
    </property>
    <property name="title">
-    <string>Rear Wheels Speed</string>
+    <string>Rear Wheels Speed Sensors</string>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
@@ -121,6 +133,12 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
       </widget>
      </item>
      <item row="3" column="0">
@@ -138,6 +156,12 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
       </widget>
      </item>
     </layout>
@@ -149,11 +173,11 @@
      <x>700</x>
      <y>20</y>
      <width>211</width>
-     <height>121</height>
+     <height>161</height>
     </rect>
    </property>
    <property name="title">
-    <string>Vehicle Speed</string>
+    <string>Vehicle Speed Sensors</string>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget_4">
     <property name="geometry">
@@ -161,19 +185,19 @@
       <x>10</x>
       <y>30</y>
       <width>191</width>
-      <height>81</height>
+      <height>128</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="vsLayout">
      <item row="1" column="0">
-      <widget class="QLabel" name="vsLabel">
+      <widget class="QLabel" name="vsLabel1">
        <property name="text">
-        <string>Speed:</string>
+        <string>Sensor 1:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="vsSpinBox">
+      <widget class="QDoubleSpinBox" name="vsSpinBox1">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -182,6 +206,81 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="vsLabel2">
+       <property name="text">
+        <string>Sensor 2:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="vsSpinBox2">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="vsLabel3">
+       <property name="text">
+        <string>Throttle:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="vsSpinBox3">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="vsLabel4">
+       <property name="text">
+        <string>Sensor 3:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="vsSpinBox4">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -198,7 +297,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Steering</string>
+    <string>Steering Sensor</string>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget_5">
     <property name="geometry">
@@ -211,14 +310,14 @@
     </property>
     <layout class="QGridLayout" name="stLayout">
      <item row="1" column="0">
-      <widget class="QLabel" name="stLabel">
+      <widget class="QLabel" name="stLabel1">
        <property name="text">
-        <string>Angle:</string>
+        <string>Sensor 1:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="stSpinBox">
+      <widget class="QDoubleSpinBox" name="stSpinBox1">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -228,16 +327,239 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="stLabel2">
+       <property name="text">
+        <string>Sensor 2:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="stSpinBox2">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
       </widget>
      </item>
     </layout>
    </widget>
   </widget>
-  <zorder>fwsGroup</zorder>
-  <zorder>rwsGroup</zorder>
-  <zorder>vsGroup</zorder>
-  <zorder>stGroup</zorder>
-  <zorder>stSpinBox</zorder>
+  <widget class="QGroupBox" name="bGroup">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>170</y>
+     <width>211</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Brakes Sensor</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>201</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="bLayout">
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="bSpinBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="bLabel">
+       <property name="text">
+        <string>Sensor:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="a1Group">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>300</y>
+     <width>251</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Transverse Acceleration Sensors</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="a1Layout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="a1Label1">
+       <property name="text">
+        <string>Sensor 1:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="a1SpinBox1">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="a1Label2">
+       <property name="text">
+        <string>Sensor 2:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="a1SpinBox2">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="a2Group">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>300</y>
+     <width>261</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Longitudinal Acceleration Sensors</string>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="a2Layout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="a2Label1">
+       <property name="text">
+        <string>Sensor 1:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="a2SpinBox1">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="a2Label2">
+       <property name="text">
+        <string>Sensor 2:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="a2SpinBox2">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <double>-1000000.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>
