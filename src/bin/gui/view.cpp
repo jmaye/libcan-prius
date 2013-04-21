@@ -24,7 +24,6 @@
 #include <string>
 
 #include <QtGui/QApplication>
-#include <QtCore/QThread>
 #include <QtCore/QMetaType>
 
 #include "com/CANConnection.h"
@@ -44,9 +43,6 @@ int main(int argc, char** argv) {
   CANConnection device;
   PRIUSReader reader(device);
   CANCom canCom(reader);
-//  QThread* canThread = new QThread;
-//  canCom.moveToThread(canThread);
-//  canThread->start();
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Toyota PRIUS CAN View");
   KnownMessagesTab knownMessagesTab;

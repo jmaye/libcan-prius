@@ -29,7 +29,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
-  DEPENDS libcan-prius libcan-dev
+  DEPENDS libcan-prius
 )
 
 remake_pack_deb(

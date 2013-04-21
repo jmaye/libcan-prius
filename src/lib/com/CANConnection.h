@@ -24,13 +24,11 @@
 #ifndef CANCONNECTION_H
 #define CANCONNECTION_H
 
-extern "C" {
-  #include <libcan/can.h>
-}
-
 #include <string>
 
 #include "base/Serializable.h"
+
+struct can_device_t;
 
 /** The class CANConnection is an interface for CAN communication.
     \brief CAN communication interface
@@ -136,7 +134,7 @@ protected:
   /// Timeout for the CAN device
   double mTimeout;
   /// Handle to the CAN device
-  can_device_p mHandle;
+  can_device_t* mHandle;
   /** @}
     */
 

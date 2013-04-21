@@ -1,3 +1,9 @@
+libcan-prius (0.1-15) lucid; urgency=low
+
+  * changed dependency 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 21 Apr 2013 17:56:28 +0200
+
 libcan-prius (0.1-14) lucid; urgency=low
 
   * updated to a working state

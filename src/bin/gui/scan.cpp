@@ -23,7 +23,6 @@
 #include <string>
 
 #include <QtGui/QApplication>
-#include <QtCore/QThread>
 #include <QtCore/QMetaType>
 
 #include "com/CANConnection.h"
@@ -40,9 +39,6 @@ int main(int argc, char** argv) {
   QApplication application(argc, argv);
   CANConnection device;
   CANScanCom canCom(device);
-//  QThread* canThread = new QThread;
-//  canCom.moveToThread(canThread);
-//  canThread->start();
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Toyota PRIUS CAN Scan");
   ScannedMessagesTab scannedMessagesTab;
