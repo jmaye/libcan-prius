@@ -1,3 +1,9 @@
+libcan-prius (1.0-16) lucid; urgency=low
+
+  * porting to GIT 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 22 Apr 2013 10:37:04 +0200
+
 libcan-prius (0.1-15) lucid; urgency=low
 
   * changed dependency 
