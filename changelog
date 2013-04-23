@@ -1,3 +1,9 @@
+libcan-prius (1.0-17) lucid; urgency=low
+
+  * git ignore added
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 23 Apr 2013 10:10:19 +0200
+
 libcan-prius (1.0-16) lucid; urgency=low
 
   * porting to GIT 
