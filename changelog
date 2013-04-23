@@ -1,3 +1,9 @@
+libcan-prius (1.0-18) lucid; urgency=low
+
+  * bug
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 23 Apr 2013 10:11:26 +0200
+
 libcan-prius (1.0-17) lucid; urgency=low
 
   * git ignore added
