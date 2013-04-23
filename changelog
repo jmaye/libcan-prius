@@ -1,3 +1,9 @@
+libcan-prius (1.0-19) lucid; urgency=low
+
+  * adding README.md file
+
+ -- Jerome Maye <jmaye@jmaye-laptop>  Tue, 23 Apr 2013 10:35:21 +0200
+
 libcan-prius (1.0-18) lucid; urgency=low
 
   * bug
