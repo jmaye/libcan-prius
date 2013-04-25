@@ -16,60 +16,54 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file view.cpp
-    \brief This file is a testing binary for live visualization of PRIUS
+/** \file playback.cpp
+    \brief This file is a testing binary for playback visualization of PRIUS
            messages.
   */
 
-#include <string>
+#include <iostream>
+#include <fstream>
 
 #include <QtGui/QApplication>
 #include <QtCore/QMetaType>
 
-#include "com/CANConnection.h"
-#include "sensor/PRIUSReader.h"
-#include "visualization/CANCom.h"
+#include "visualization/LogReader.h"
 #include "visualization/MainWindow.h"
 #include "visualization/KnownMessagesTab.h"
 #include "types/PRIUSMessage.h"
+#include "base/BinaryStreamReader.h"
 
 Q_DECLARE_METATYPE(std::shared_ptr<PRIUSMessage>);
-Q_DECLARE_METATYPE(std::string);
 
 int main(int argc, char** argv) {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <logFile>" << std::endl;
+    return 1;
+  }
   qRegisterMetaType<std::shared_ptr<PRIUSMessage> >();
-  qRegisterMetaType<std::string>();
   QApplication application(argc, argv);
-  CANConnection device;
-  PRIUSReader reader(device);
-  CANCom canCom(reader);
   MainWindow mainWindow;
-  mainWindow.setWindowTitle("Toyota PRIUS CAN View");
+  mainWindow.setWindowTitle("Toyota PRIUS CAN Playback");
   KnownMessagesTab knownMessagesTab;
   mainWindow.addControl("Known Messages", knownMessagesTab);
-  QObject::connect(&canCom,
-    SIGNAL(comException(const std::string&)),
-    &mainWindow,
-    SLOT(comException(const std::string&)));
-  QObject::connect(&canCom,
+  std::ifstream logFile(argv[1]);
+  BinaryStreamReader<std::ifstream> binaryStreamReader(logFile);
+  LogReader logReader(binaryStreamReader);
+  QObject::connect(&logReader,
     SIGNAL(deviceConnected(bool)),
     &mainWindow,
     SLOT(deviceConnected(bool)));
-  QObject::connect(&canCom,
+  QObject::connect(&logReader,
     SIGNAL(readMessage(std::shared_ptr<PRIUSMessage>)),
     &knownMessagesTab,
     SLOT(readMessage(std::shared_ptr<PRIUSMessage>)));
   mainWindow.show();
   const int ret = application.exec();
-  QObject::disconnect(&canCom,
-    SIGNAL(comException(const std::string&)),
-    &mainWindow,
-    SLOT(comException(const std::string&)));
-  QObject::disconnect(&canCom,
+  QObject::disconnect(&logReader,
     SIGNAL(deviceConnected(bool)),
     &mainWindow,
     SLOT(deviceConnected(bool)));
-  QObject::disconnect(&canCom,
+  QObject::disconnect(&logReader,
     SIGNAL(readMessage(std::shared_ptr<PRIUSMessage>)),
     &knownMessagesTab,
     SLOT(readMessage(std::shared_ptr<PRIUSMessage>)));
