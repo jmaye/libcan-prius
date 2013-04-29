@@ -1,3 +1,9 @@
+libcan-prius (1.0-21) precise; urgency=low
+
+  * adaptation for GCC linking precies 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 29 Apr 2013 07:37:49 +0000
+
 libcan-prius (1.0-20) lucid; urgency=low
 
   * adding playback 
