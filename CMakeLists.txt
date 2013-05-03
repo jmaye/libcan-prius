@@ -47,7 +47,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT gui-tools-dev
   DESCRIPTION "GUI tools development headers"
-  DEPENDS libcan-prius-dev libqt4-dev
+  DEPENDS libcan-prius-dev libcan-prius-gui-tools libqt4-dev
 )
 
 remake_pack_deb(
