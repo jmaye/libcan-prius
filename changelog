@@ -1,3 +1,9 @@
+libcan-prius (1.0-23) precise; urgency=low
+
+  * replacing map by unordered_map 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 08 May 2013 08:16:40 +0000
+
 libcan-prius (1.0-22) lucid; urgency=low
 
   * dependency 

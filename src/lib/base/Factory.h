@@ -24,7 +24,7 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
-#include <map>
+#include <unordered_map>
 
 #include "base/Singleton.h"
 #include "base/Serializable.h"
@@ -102,7 +102,7 @@ protected:
     @{
     */
   /// Contains the mapping between types and ID
-  std::map<T, const C*> mTypesMap;
+  std::unordered_map<T, const C*> mTypesMap;
   /** @}
     */
 
