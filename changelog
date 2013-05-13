@@ -1,3 +1,9 @@
+libcan-prius (1.0-24) lucid; urgency=low
+
+  * adding pkg-config 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 13 May 2013 14:36:23 +0200
+
 libcan-prius (1.0-23) precise; urgency=low
 
   * replacing map by unordered_map 
