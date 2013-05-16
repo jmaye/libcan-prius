@@ -1,3 +1,9 @@
+libcan-prius (1.0-25) precise; urgency=low
+
+  * mistake in configuration
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 16 May 2013 09:59:27 +0000
+
 libcan-prius (1.0-24) lucid; urgency=low
 
   * adding pkg-config 
