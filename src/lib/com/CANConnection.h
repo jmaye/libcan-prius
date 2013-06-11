@@ -66,7 +66,7 @@ public:
     */
   /// Constructs the CAN connection from parameters
   CANConnection(const std::string& devicePathStr = "/dev/cpc_usb0",
-    int bitrate = 500, int quantaPerBit = 16, double samplingPoint = 0.875,
+    int bitrate = 500, int quantaPerBit = 8, double samplingPoint = 0.625,
     double timeout = 0.01);
    /// Destructor
   virtual ~CANConnection();
