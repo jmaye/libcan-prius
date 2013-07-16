@@ -1,3 +1,9 @@
+libcan-prius (1.0-30) lucid; urgency=low
+
+  * linking against can-cpc 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 16 Jul 2013 17:04:21 +0200
+
 libcan-prius (1.0-29) lucid; urgency=low
 
   * correcting cmakelist 
