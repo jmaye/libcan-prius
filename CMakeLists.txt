@@ -24,6 +24,7 @@ remake_doc(
 remake_pack_deb(
   DESCRIPTION "Main library"
   DEPENDS libcan
+  EXTRA debian/*
 )
 
 remake_pack_deb(

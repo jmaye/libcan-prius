@@ -1,3 +1,9 @@
+libcan-prius (1.0-31) lucid; urgency=low
+
+  * adding postinst script for alternatives 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 17 Jul 2013 19:50:26 +0200
+
 libcan-prius (1.0-30) lucid; urgency=low
 
   * linking against can-cpc 

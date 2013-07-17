@@ -1,0 +1,9 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = "configure" ]; then
+  update-alternatives --set libcan.so /usr/lib/libcan-cpc.so
+fi
+
+exit 0
