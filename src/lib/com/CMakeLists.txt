@@ -1,7 +1,8 @@
-remake_find_library(tulibs-config config.h PACKAGE tulibs)
-remake_find_library(can-cpc can.h PACKAGE libcan)
+remake_find_package(tulibs CONFIG)
+remake_find_package(libcan CONFIG)
 
-remake_include(${CAN_CPC_HEADERS} ${TULIBS_CONFIG_HEADERS})
+remake_include(${TULIBS_INCLUDE_DIRS})
+remake_include(${LIBCAN_INCLUDE_DIRS})
 
-remake_add_library(com LINK base ${CAN_CPC_LIBRARY} ${TULIBS_CONFIG_LIBRARY})
+remake_add_library(com LINK base ${TULIBS_LIBRARIES} ${LIBCAN_LIBRARIES})
 remake_add_headers(INSTALL com)
