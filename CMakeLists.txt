@@ -72,3 +72,11 @@ remake_distribute_deb(
   DEPENDS remake doxygen libcan-dev libqt4-dev pkg-config
   PASS CMAKE_BUILD_TYPE LIBCAN_PRIUS_GIT_REVISION
 )
+
+remake_distribute_deb(
+  DISTRIBUTION trusty
+  SECTION libs
+  UPLOAD ppa:jmaye/ethz
+  DEPENDS remake doxygen libcan-dev libqt4-dev pkg-config
+  PASS CMAKE_BUILD_TYPE LIBCAN_PRIUS_GIT_REVISION
+)

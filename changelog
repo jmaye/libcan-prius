@@ -1,3 +1,9 @@
+libcan-prius (1.0-33) precise; urgency=low
+
+  * porting to trusty 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 Jul 2014 13:49:31 +0200
+
 libcan-prius (1.0-32) lucid; urgency=low
 
   * modifiying pkg-config 
