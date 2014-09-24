@@ -28,7 +28,9 @@
 
 #include "base/Serializable.h"
 
-struct can_device_t;
+namespace libcan {
+  struct can_device_t;
+};
 
 /** The class CANConnection is an interface for CAN communication.
     \brief CAN communication interface
@@ -134,7 +136,7 @@ protected:
   /// Timeout for the CAN device
   double mTimeout;
   /// Handle to the CAN device
-  can_device_t* mHandle;
+  libcan::can_device_t* mHandle;
   /** @}
     */
 

@@ -1,3 +1,9 @@
+libcan-prius (1.0-34) precise; urgency=low
+
+  * adapting to new libcan 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 24 Sep 2014 14:51:44 +0200
+
 libcan-prius (1.0-33) precise; urgency=low
 
   * porting to trusty 

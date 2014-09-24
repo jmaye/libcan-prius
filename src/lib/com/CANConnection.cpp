@@ -20,8 +20,10 @@
 
 #include <string.h>
 
-extern "C" {
-  #include <libcan/can_cpc.h>
+namespace libcan {
+  extern "C" {
+    #include <libcan/can_cpc.h>
+  }
 }
 
 #include "exceptions/IOException.h"
@@ -96,18 +98,18 @@ double CANConnection::getTimeout() const {
 void CANConnection::open() {
   if (isOpen())
     return;
-  config_t config;
-  config_init(&config);
-  config_set_string(&config, CAN_CPC_PARAMETER_DEVICE, mDevicePathStr.c_str());
-  config_set_int(&config, CAN_CPC_PARAMETER_BITRATE, mBitrate);
-  config_set_int(&config, CAN_CPC_PARAMETER_QUANTA_PER_BIT, mQuantaPerBit);
-  config_set_float(&config, CAN_CPC_PARAMETER_SAMPLING_POINT, mSamplingPoint);
-  config_set_float(&config, CAN_CPC_PARAMETER_TIMEOUT, mTimeout);
-  mHandle = (can_device_p)malloc(sizeof(can_device_t));
-  can_init(mHandle, &config);
-  config_destroy(&config);
-  if (can_open(mHandle)) {
-    can_destroy(mHandle);
+  libcan::config_t config;
+  libcan::config_init(&config);
+  libcan::config_set_string(&config, CAN_CPC_PARAMETER_DEVICE, mDevicePathStr.c_str());
+  libcan::config_set_int(&config, CAN_CPC_PARAMETER_BIT_RATE, mBitrate);
+  libcan::config_set_int(&config, CAN_CPC_PARAMETER_QUANTA_PER_BIT, mQuantaPerBit);
+  libcan::config_set_float(&config, CAN_CPC_PARAMETER_SAMPLING_POINT, mSamplingPoint);
+  libcan::config_set_float(&config, CAN_CPC_PARAMETER_TIMEOUT, mTimeout);
+  mHandle = (libcan::can_device_t*)malloc(sizeof(libcan::can_device_t));
+  libcan::can_device_init_config(mHandle, &config);
+  libcan::config_destroy(&config);
+  if (libcan::can_device_open(mHandle)) {
+    libcan::can_device_destroy(mHandle);
     free(mHandle);
     mHandle = 0;
     throw IOException("CANConnection::open: CAN port opening failed");
@@ -116,8 +118,8 @@ void CANConnection::open() {
 
 void CANConnection::close() {
   if (mHandle != 0) {
-    can_destroy(mHandle);
-    int ret = can_close(mHandle);
+    libcan::can_device_destroy(mHandle);
+    int ret = libcan::can_device_close(mHandle);
     free(mHandle);
     mHandle = 0;
     if (ret)
@@ -132,20 +134,20 @@ bool CANConnection::isOpen() const {
 void CANConnection::sendMessage(const Message& message) {
   if (!isOpen())
     open();
-  can_message_t msg;
+  libcan::can_message_t msg;
   msg.id = message.id;
   memcpy(msg.content, message.content, sizeof(message.content));
   msg.length = message.length;
-  if (can_send_message(mHandle, &msg))
+  if (libcan::can_device_send_message(mHandle, &msg))
     throw IOException("CANConnection::sendMessage: failed");
 }
 
 void CANConnection::receiveMessage(Message& message) {
   if (!isOpen())
     open();
-  can_message_t msg;
+  libcan::can_message_t msg;
   memset(msg.content, 0, sizeof(msg.content));
-  if (can_receive_message(mHandle, &msg))
+  if (libcan::can_device_receive_message(mHandle, &msg))
     throw IOException("CANConnection::receiveMessage: failed");
   message.id = msg.id;
   memcpy(message.content, msg.content, sizeof(msg.content));
